@@ -7,14 +7,14 @@ from rich.console import Console
 
 Console = Console()
 
-TECH = "170"
+TECH = "xxxx"
 
 TRONCO_OPERADORAS = {
-    "OTIMA": "2223",
-    "PRIMACOM": "2224",
-    "OKTOR": "2225",
-    "AGIL": "2226",
-    "EMBRATEL": "2221"
+    "OTIMA": "xxxx",
+    "PRIMACOM": "xxxx",
+    "OKTOR": "xxxx",
+    "AGIL": "xxxx",
+    "EMBRATEL": "xxxx"
 }
 
 CODIGO_ROTA = "5060"
@@ -70,11 +70,11 @@ class TesteCall(pj.Call):
     def registrar_resultado(self):
         pdd_ms = None
         if self.t_invite and self.t_ring:
-            pdd_ms = round((self.t_ring - self.t_invite) / 1000, 1)
+            pdd_ms = round((self.t_ring - self.t_invite) * 1000, 1)
 
         setup_ms = None
         if self.t_invite and self.t_answer:
-            setup_ms = round((self.t_answer - self.t_invite) / 1000, 1)
+            setup_ms = round((self.t_answer - self.t_invite) * 1000, 1)
 
         row = {
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -111,17 +111,17 @@ def main():
 
     ep.libStart()
 
-    SIP_DOMAIN = "172.17.192.100"
-    RAMAL = "9200"
-    AUTH_ID = "9200"
-    SENHA = "54321"
+    SIP_DOMAIN = "xxxxxxxx"
+    RAMAL = "xxxxx"
+    AUTH_ID = "xxxx"
+    SENHA = "xxxxx"
     
     # FILA DE DESTINOS
     LISTA_DESTINOS = [
-        "71981095836",
-        "83991835734",
-        "81994448850",
-        "21973599418"
+        "xxxxxxxxxxx",
+        "xxxxxxxxxxx",
+        "xxxxxxxxxxx",
+        "xxxxxxxxxxx"
     ]
     
     OPERADORAS_TESTE = ["OTIMA", "PRIMACOM", "OKTOR", "AGIL", "EMBRATEL"]
