@@ -4,17 +4,18 @@ import time
 import pjsua2 as pj
 from gravador import iniciar_gravacao, parar_gravacao
 from rich.console import Console
+from registro import PainelAoVivo  # <--- Importa o painel ao vivo que criamos
 
 Console = Console()
 
-TECH = "xxxx"
+TECH = "170"
 
 TRONCO_OPERADORAS = {
-    "OTIMA": "xxxx",
-    "PRIMACOM": "xxxx",
-    "OKTOR": "xxxx",
-    "AGIL": "xxxx",
-    "EMBRATEL": "xxxx"
+    "OTIMA": "2223",
+    "PRIMACOM": "2224",
+    "OKTOR": "2225",
+    "AGIL": "2226",
+    "EMBRATEL": "2221"
 }
 
 CODIGO_ROTA = "5060"
@@ -39,8 +40,8 @@ class TesteCall(pj.Call):
         self.operadora = operadora
         self.telefone = telefone
         self.ip = ip
-        self.ramal = ramal       # Adicionado para salvar o ramal no CSV/Tabela
-        self.painel = painel     # Adicionado para atualizar o Rich ao vivo
+        self.ramal = ramal
+        self.painel = painel   # <--- Recebe o painel aqui
 
     def onCallState(self, prm):
         ci = self.getInfo()
@@ -55,7 +56,6 @@ class TesteCall(pj.Call):
                 self.last_status_text = ci.lastReason
         elif ci.state == pj.PJSIP_INV_STATE_CONFIRMED:
             self.t_answer = now
-            # Inicia a gravação com o nome da operadora, número e horário exato
             nome_arquivo = f"{self.operadora}_{self.telefone}_{time.strftime('%Y%m%d_%H%M%S')}.wav"
             iniciar_gravacao(self, file_path=nome_arquivo)
             
@@ -68,31 +68,29 @@ class TesteCall(pj.Call):
             self.registrar_resultado()
 
     def registrar_resultado(self):
-        pdd_ms = None
+        pdd_s = None
         if self.t_invite and self.t_ring:
-            pdd_ms = round((self.t_ring - self.t_invite) * 1000, 1)
+            pdd_s = round(self.t_ring - self.t_invite, 2)  # Segundos com 2 casas decimais
 
-        setup_ms = None
+        setup_s = None
         if self.t_invite and self.t_answer:
-            setup_ms = round((self.t_answer - self.t_invite) * 1000, 1)
+            setup_s = round(self.t_answer - self.t_invite, 2)
 
         row = {
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "operadora": self.operadora,
-            "telefone": self.telefone,
-            "ip": self.ip,
-            "pdd_ms": pdd_ms,
-            "setup_time_ms": setup_ms,
+            "ramal": self.ramal,
+            "tronco": self.operadora,
+            "pdd_s": pdd_s,
+            "setup_time_s": setup_s,
             "sip_code": self.last_status_code,
             "sip_reason": self.last_status_text,
             "atendida": self.t_answer is not None,
+            "Número": self.telefone
         }
 
-        with open("resultado_pdd.csv", "a", newline="") as f:
-            writer = csv.DictWriter(f, fieldnames=row.keys())
-            if f.tell() == 0:
-                writer.writeheader()
-            writer.writerow(row)
+        # Envia os dados para o painel atualizar a tabela e salvar no CSV automaticamente
+        if self.painel:
+            self.painel.registrar(row)
 
 
 def main():
@@ -101,8 +99,8 @@ def main():
 
     ep_cfg = pj.EpConfig()
     log_cfg = ep_cfg.logConfig
-    log_cfg.level = 4           # Nível 4 (suficiente para ver o fluxo SIP sem inundar o terminal)
-    log_cfg.consoleLevel = 4    # Mostra apenas o essencial no console
+    log_cfg.level = 4
+    log_cfg.consoleLevel = 4
     ep.libInit(ep_cfg)
 
     sip_tp_cfg = pj.TransportConfig()
@@ -111,23 +109,20 @@ def main():
 
     ep.libStart()
 
-    SIP_DOMAIN = "xxxxxxxx"
-    RAMAL = "xxxxx"
-    AUTH_ID = "xxxx"
-    SENHA = "xxxxx"
+    ep.libRegisterThread("main_thread")
+
+    SIP_DOMAIN = "172.17.192.100"
+    RAMAL = "9200"
+    AUTH_ID = "9200"
+    SENHA = "54321"
     
-    # FILA DE DESTINOS
     LISTA_DESTINOS = [
-        "xxxxxxxxxxx",
-        "xxxxxxxxxxx",
-        "xxxxxxxxxxx",
-        "xxxxxxxxxxx"
+        "41988404022"
     ]
     
     OPERADORAS_TESTE = ["OTIMA", "PRIMACOM", "OKTOR", "AGIL", "EMBRATEL"]
 
     acc_cfg = pj.AccountConfig()
-    
     acc_cfg.idUri = f"sip:{RAMAL}@{SIP_DOMAIN}"
     acc_cfg.regConfig.registrarUri = f"sip:{SIP_DOMAIN}"
 
@@ -139,49 +134,57 @@ def main():
 
     time.sleep(2)
 
-    # LOOP 1: Percorre cada número da lista de destinos
-    for destino in LISTA_DESTINOS:
-        Console.print(f"\n[bold red] ========================================")
-        Console.print(f"[bold red] INICIANDO TESTES PARA O NÚMERO: {destino}")
-        Console.print(f"[bold red] ========================================")
+    # ATIVA O PAINEL AO VIVO DO RICH ENQUANTO RODE AS CHAMADAS
+    with PainelAoVivo() as painel:
         
-        # LOOP 2: Para cada número, testa todas as operadoras em sequência
-        for operadora in OPERADORAS_TESTE:
-            Console.print(f"\n[bold cyan]--- Testando operadora: {operadora} para o número {destino} ---")
+        # LOOP 1: Percorre cada número da lista de destinos
+        for destino in LISTA_DESTINOS:
+            Console.print(f"\n[bold red] ========================================")
+            Console.print(f"[bold red] INICIANDO TESTES PARA O NÚMERO: {destino}")
+            Console.print(f"[bold red] ========================================")
             
-            # Gera o número formatado com o prefixo da operadora atual
-            numero_fical = numero_discagem(operadora, destino)
-            
-            call = TesteCall(
-                acc=acc,
-                call_id=pj.PJSUA_INVALID_ID,
-                operadora=operadora,   # Passa apenas a operadora da iteração atual (string)
-                telefone=destino,
-                ip=SIP_DOMAIN,
-                ramal=RAMAL,           # Incluído caso sua classe exija o ramal
-            )
-            
-            call_prm = pj.CallOpParam(True)
-            dst_uri = f"sip:{numero_fical}@{SIP_DOMAIN}"
-            
-            call.makeCall(dst_uri, call_prm)
+            # LOOP 2: Para cada número, testa todas as operadoras em sequência
+            for operadora in OPERADORAS_TESTE:
+                Console.print(f"\n[bold cyan]--- Testando operadora: {operadora} para o número {destino} ---")
+                
+                numero_fical = numero_discagem(operadora, destino)
+                
+                call = TesteCall(
+                    acc=acc,
+                    call_id=pj.PJSUA_INVALID_ID,
+                    operadora=operadora,
+                    telefone=destino,
+                    ip=SIP_DOMAIN,
+                    ramal=RAMAL,
+                    painel=painel   # <--- Passando o painel para a chamada
+                )
+                
+                call_prm = pj.CallOpParam(True)
+                dst_uri = f"sip:{numero_fical}@{SIP_DOMAIN}"
 
-            # Aguarda a chamada atual finalizar antes de ir para a próxima operadora
-            while True:
+                # 2. CAPTURAR ERROS NATIVOS DO C++
                 try:
-                    state = call.getInfo().state
-                    if state >= pj.PJSIP_INV_STATE_DISCONNECTED:
+                    call.makeCall(dst_uri, call_prm)
+                except pj.Error as e:
+                    Console.print(f"[bold red]Erro ao disparar makeCall para {dst_uri}: {e.info()}")
+                    continue
+
+                # 3. BOMBEAR EVENTOS DO PJSIP NO LOOP DE ESPERA
+                while True:
+                    try:
+                        ep.libHandleEvents(50)  # Mantém a pilha SIP ativa e escutando a rede
+                        state = call.getInfo().state
+                        if state >= pj.PJSIP_INV_STATE_DISCONNECTED:
+                            break
+                    except Exception as err:
+                        Console.print(f"[bold yellow]Exceção no monitoramento da chamada: {err}")
                         break
-                except Exception:
-                    break
 
-                time.sleep(0.5)
+                Console.print(f"[bold red]Teste com {operadora} finalizado. Pausando 2 segundos...")
+                time.sleep(2)
 
-            Console.print(f"[bold red]Teste com {operadora} finalizado. Pausando 2 segundos...")
-            time.sleep(2) # Pausa de segurança entre uma operadora e outra
-
-        Console.print(f"\n[bold red][CONCLUÍDO] Todos os testes para o número {destino} foram finalizados.")
-        time.sleep(3) # Pausa maior entre um número e outro da lista
+            Console.print(f"\n[bold red][CONCLUÍDO] Todos os testes para o número {destino} foram finalizados.")
+            time.sleep(3)
 
     Console.print("\n[bold red]Fila geral de chamadas concluída. Todos os dados foram salvos no CSV e áudios na pasta.")
 
