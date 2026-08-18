@@ -1,193 +1,221 @@
-import csv
+# -*- coding: utf-8 -*-
+import importlib.util
 import os
+import sys
+
+# --- CONFIGURAÇÃO DE CARREGAMENTO DAS DLLS E MÓDULO _pjsua2 ---
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# 1. Registra os diretórios de DLLs para Windows/MINGW no carregador nativo do Python
+if hasattr(os, "add_dll_directory"):
+  # Pasta raiz do projeto
+  os.add_dll_directory(BASE_DIR)
+
+  # Adiciona os binários nativos do MinGW64 do MSYS2 (onde ficam libwinpthread-1.dll, libstdc++-6.dll, etc.)
+  msys_bin = r"C:\msys64\mingw64\bin"
+  if os.path.exists(msys_bin):
+    os.add_dll_directory(msys_bin)
+
+  # Pasta de pacotes do ambiente virtual
+  site_pkg = os.path.join(BASE_DIR, "venv_win", "Lib", "site-packages")
+  if os.path.exists(site_pkg):
+    os.add_dll_directory(site_pkg)
+
+# 2. Garante a importação do _pjsua2 (captura tanto ModuleNotFoundError quanto ImportError)
+try:
+  import _pjsua2
+except (ModuleNotFoundError, ImportError) as err:
+  site_pkg = os.path.join(BASE_DIR, "venv_win", "Lib", "site-packages")
+
+  pyd_found = None
+  if os.path.exists(site_pkg):
+    for f in os.listdir(site_pkg):
+      if f.startswith("_pjsua2") and f.endswith(".pyd"):
+        pyd_found = os.path.join(site_pkg, f)
+        break
+
+  if pyd_found:
+    spec = importlib.util.spec_from_file_location("_pjsua2", pyd_found)
+    _pjsua2 = importlib.util.module_from_spec(spec)
+    sys.modules["_pjsua2"] = _pjsua2
+    spec.loader.exec_module(_pjsua2)
+  else:
+    raise err
+
 import time
 import pjsua2 as pj
-from gravador import iniciar_gravacao, parar_gravacao
-from rich.console import Console
-from registro import PainelAoVivo  # <--- Importa o painel ao vivo que criamos
 
-Console = Console()
-
-TECH = "170"
-
-TRONCO_OPERADORAS = {
-    "OTIMA": "2223",
-    "PRIMACOM": "2224",
-    "OKTOR": "2225",
-    "AGIL": "2226",
-    "EMBRATEL": "2221"
-}
-
-CODIGO_ROTA = "5060"
-
-def numero_discagem(operadora, numero_ddd):
-    tronco = TRONCO_OPERADORAS.get(operadora)
-    if tronco is None:
-        raise ValueError(f"OPERADORA '{operadora}' não identificada em TRONCO_OPERADORAS")
-    return f"{TECH}{tronco}{numero_ddd}"
+import baterias.rate_sensitivity as b_rate
+import baterias.reattach as b_reattach
+from classificador import classificar_chamada
+import config as c
+from registro import PainelAoVivo
+from teste import TesteCall
 
 
-class TesteCall(pj.Call):
-
-    def __init__(self, acc, call_id=pj.PJSUA_INVALID_ID, operadora=None, telefone=None, ip=None, ramal=None, painel=None):
-        pj.Call.__init__(self, acc, call_id)
-        self.t_invite = None
-        self.t_ring = None
-        self.t_answer = None
-        self.t_end = None
-        self.last_status_code = None
-        self.last_status_text = None
-        self.operadora = operadora
-        self.telefone = telefone
-        self.ip = ip
-        self.ramal = ramal
-        self.painel = painel   # <--- Recebe o painel aqui
-
-    def onCallState(self, prm):
-        ci = self.getInfo()
-        now = time.time()
-
-        if ci.state == pj.PJSIP_INV_STATE_CALLING:
-            self.t_invite = now
-        elif ci.state == pj.PJSIP_INV_STATE_EARLY:
-            if self.t_ring is None:
-                self.t_ring = now
-                self.last_status_code = ci.lastStatusCode
-                self.last_status_text = ci.lastReason
-        elif ci.state == pj.PJSIP_INV_STATE_CONFIRMED:
-            self.t_answer = now
-            nome_arquivo = f"{self.operadora}_{self.telefone}_{time.strftime('%Y%m%d_%H%M%S')}.wav"
-            iniciar_gravacao(self, file_path=nome_arquivo)
-            
-        elif ci.state == pj.PJSIP_INV_STATE_DISCONNECTED:
-            self.t_end = now
-            self.last_status_code = ci.lastStatusCode
-            self.last_status_text = ci.lastReason
-            
-            parar_gravacao(self)
-            self.registrar_resultado()
-
-    def registrar_resultado(self):
-        pdd_s = None
-        if self.t_invite and self.t_ring:
-            pdd_s = round(self.t_ring - self.t_invite, 2)  # Segundos com 2 casas decimais
-
-        setup_s = None
-        if self.t_invite and self.t_answer:
-            setup_s = round(self.t_answer - self.t_invite, 2)
-
-        row = {
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "ramal": self.ramal,
-            "tronco": self.operadora,
-            "pdd_s": pdd_s,
-            "setup_time_s": setup_s,
-            "sip_code": self.last_status_code,
-            "sip_reason": self.last_status_text,
-            "atendida": self.t_answer is not None,
-            "Número": self.telefone
-        }
-
-        # Envia os dados para o painel atualizar a tabela e salvar no CSV automaticamente
-        if self.painel:
-            self.painel.registrar(row)
+def emitir_log(texto, log_callback=None):
+  """Envia a mensagem para a GUI (se fornecido) e/ou imprime no terminal."""
+  if log_callback:
+    log_callback(texto)
+  else:
+    print(texto)
 
 
-def main():
-    ep = pj.Endpoint()
-    ep.libCreate()
+def disparar_e_aguardar(
+    ep, acc, operadora, destino, ramal, painel, sip_domain, log_callback=None
+):
+  emitir_log(f"--- Testando {operadora} -> {destino} ---", log_callback)
 
-    ep_cfg = pj.EpConfig()
-    log_cfg = ep_cfg.logConfig
-    log_cfg.level = 4
-    log_cfg.consoleLevel = 4
-    ep.libInit(ep_cfg)
+  tronco = c.TRONCO_OPERADORAS.get(operadora)
+  if not tronco:
+    emitir_log(
+        f"[ERRO] Operadora '{operadora}' não encontrada em TRONCO_OPERADORAS",
+        log_callback,
+    )
+    return
 
-    sip_tp_cfg = pj.TransportConfig()
-    sip_tp_cfg.port = 5060 
-    ep.transportCreate(pj.PJSIP_TRANSPORT_UDP, sip_tp_cfg)
+  numero_fical = f"{c.TECH}{tronco}{destino}"
+  call = TesteCall(
+      acc=acc,
+      call_id=pj.PJSUA_INVALID_ID,
+      operadora=operadora,
+      telefone=destino,
+      ip=c.SIP_DOMAIN,
+      ramal=ramal,
+      painel=painel,
+  )
 
-    ep.libStart()
+  call_prm = pj.CallOpParam(True)
+  dst_uri = f"sip:{numero_fical}@{sip_domain}"
 
-    ep.libRegisterThread("main_thread")
+  try:
+    call.makeCall(dst_uri, call_prm)
+  except pj.Error as e:
+    emitir_log(f"[ERRO] makeCall para {dst_uri}: {e.info()}", log_callback)
+    return
 
-    SIP_DOMAIN = "172.17.192.100"
-    RAMAL = "9200"
-    AUTH_ID = "9200"
-    SENHA = "54321"
-    
-    LISTA_DESTINOS = [
-        "41988404022"
-    ]
-    
-    OPERADORAS_TESTE = ["OTIMA", "PRIMACOM", "OKTOR", "AGIL", "EMBRATEL"]
+  while True:
+    try:
+      ep.libHandleEvents(50)
+      state = call.getInfo().state
+      if state >= pj.PJSIP_INV_STATE_DISCONNECTED:
+        break
+    except Exception as err:
+      emitir_log(f"[EXCEÇÃO] {err}", log_callback)
+      break
 
-    acc_cfg = pj.AccountConfig()
-    acc_cfg.idUri = f"sip:{RAMAL}@{SIP_DOMAIN}"
-    acc_cfg.regConfig.registrarUri = f"sip:{SIP_DOMAIN}"
+  caminho_audio = getattr(call, "wav_path", f"gravacao_{destino}.wav")
+  if os.path.exists(caminho_audio):
+    emitir_log("🔍 Analisando áudio com Whisper...", log_callback)
+    resultado = classificar_chamada(call, audio_path=caminho_audio)
+    emitir_log(
+        f"Classificação: {resultado['classificacao']} | Motivo:"
+        f" {resultado['motivo_classificacao']}",
+        log_callback,
+    )
+  else:
+    resultado = classificar_chamada(call, audio_path=None)
+    emitir_log(
+        f"Classificação SIP: {resultado['classificacao']}", log_callback
+    )
 
-    cred = pj.AuthCredInfo("digest", "*", AUTH_ID, 0, SENHA)
-    acc_cfg.sipConfig.authCreds.append(cred)
 
-    acc = pj.Account()
-    acc.create(acc_cfg)
+def executar_automacao(
+    modo="padrao", log_callback=None, app_state=None, painel_factory=None
+):
+  """Função principal chamada pela GUI/TUI ou via terminal.
 
-    time.sleep(2)
+  painel_factory: callable opcional que retorna um objeto com a mesma
+  interface de PainelAoVivo (atualizar/registrar/__enter__/__exit__).
+  Usado pela interface Textual (tui_painel.PainelTUI) para desviar as
+  atualizações para a UI em vez de desenhar a tabela Rich sozinho.
+  Se não for passado, mantém o comportamento original (PainelAoVivo).
+  """
+  emitir_log(f"[+] Inicializando PJSIP no modo '{modo}'...", log_callback)
 
-    # ATIVA O PAINEL AO VIVO DO RICH ENQUANTO RODE AS CHAMADAS
-    with PainelAoVivo() as painel:
-        
-        # LOOP 1: Percorre cada número da lista de destinos
-        for destino in LISTA_DESTINOS:
-            Console.print(f"\n[bold red] ========================================")
-            Console.print(f"[bold red] INICIANDO TESTES PARA O NÚMERO: {destino}")
-            Console.print(f"[bold red] ========================================")
-            
-            # LOOP 2: Para cada número, testa todas as operadoras em sequência
-            for operadora in OPERADORAS_TESTE:
-                Console.print(f"\n[bold cyan]--- Testando operadora: {operadora} para o número {destino} ---")
-                
-                numero_fical = numero_discagem(operadora, destino)
-                
-                call = TesteCall(
-                    acc=acc,
-                    call_id=pj.PJSUA_INVALID_ID,
-                    operadora=operadora,
-                    telefone=destino,
-                    ip=SIP_DOMAIN,
-                    ramal=RAMAL,
-                    painel=painel   # <--- Passando o painel para a chamada
-                )
-                
-                call_prm = pj.CallOpParam(True)
-                dst_uri = f"sip:{numero_fical}@{SIP_DOMAIN}"
+  ep = pj.Endpoint()
+  ep.libCreate()
 
-                # 2. CAPTURAR ERROS NATIVOS DO C++
-                try:
-                    call.makeCall(dst_uri, call_prm)
-                except pj.Error as e:
-                    Console.print(f"[bold red]Erro ao disparar makeCall para {dst_uri}: {e.info()}")
-                    continue
+  ep_cfg = pj.EpConfig()
+  ep_cfg.logConfig.level = 4
+  ep_cfg.logConfig.consoleLevel = 0
+  ep.libInit(ep_cfg)
 
-                # 3. BOMBEAR EVENTOS DO PJSIP NO LOOP DE ESPERA
-                while True:
-                    try:
-                        ep.libHandleEvents(50)  # Mantém a pilha SIP ativa e escutando a rede
-                        state = call.getInfo().state
-                        if state >= pj.PJSIP_INV_STATE_DISCONNECTED:
-                            break
-                    except Exception as err:
-                        Console.print(f"[bold yellow]Exceção no monitoramento da chamada: {err}")
-                        break
+  sip_tp_cfg = pj.TransportConfig()
+  sip_tp_cfg.port = 5060
+  ep.transportCreate(pj.PJSIP_TRANSPORT_UDP, sip_tp_cfg)
 
-                Console.print(f"[bold red]Teste com {operadora} finalizado. Pausando 2 segundos...")
-                time.sleep(2)
+  ep.libStart()
+  # Registra a thread atual junto ao pjsua2 — importante quando executar_automacao
+  # roda dentro de uma thread de worker (caso da interface Textual), e não na
+  # thread principal do processo.
+  ep.libRegisterThread("automacao_thread")
 
-            Console.print(f"\n[bold red][CONCLUÍDO] Todos os testes para o número {destino} foram finalizados.")
-            time.sleep(3)
+  acc_cfg = pj.AccountConfig()
+  acc_cfg.idUri = f"sip:{c.RAMAL}@{c.SIP_DOMAIN}"
+  acc_cfg.regConfig.registrarUri = f"sip:{c.SIP_DOMAIN}"
+  cred = pj.AuthCredInfo("digest", "*", c.AUTH_ID, 0, c.SENHA)
+  acc_cfg.sipConfig.authCreds.append(cred)
 
-    Console.print("\n[bold red]Fila geral de chamadas concluída. Todos os dados foram salvos no CSV e áudios na pasta.")
+  acc = pj.Account()
+  acc.create(acc_cfg)
+  time.sleep(2)
+
+  criar_painel = painel_factory if painel_factory else PainelAoVivo
+
+  try:
+    with criar_painel() as painel:
+      total = len(c.LISTA_DESTINOS) * len(c.OPERADORAS_TESTE)
+      contador = 0
+
+      for destino in c.LISTA_DESTINOS:
+        for operadora in c.OPERADORAS_TESTE:
+          # Checa se o usuário clicou em Parar na interface
+          if app_state and not app_state.get("running", True):
+            emitir_log("[!] Teste interrompido pelo usuário.", log_callback)
+            return
+
+          contador += 1
+          emitir_log(
+              f"\n>>> CICLO {contador}/{total} | {operadora} -> {destino}",
+              log_callback,
+          )
+
+          if modo == "padrao":
+            disparar_e_aguardar(
+                ep,
+                acc,
+                operadora,
+                destino,
+                c.RAMAL,
+                painel,
+                c.SIP_DOMAIN,
+                log_callback,
+            )
+            time.sleep(2)
+
+          elif modo == "rate_sensitivity":
+            b_rate.bateria_rate_sensitivity(
+                ep, acc, destino, operadora, c.RAMAL, painel, c.SIP_DOMAIN
+            )
+
+          elif modo == "reattach":
+            b_reattach.bateria_reattach_manual(
+                ep,
+                acc,
+                destino,
+                operadora,
+                c.RAMAL,
+                painel,
+                c.SIP_DOMAIN,
+                ciclo_atual=contador,
+                ciclo_total=total,
+            )
+
+  finally:
+    emitir_log("[+] Encerrando PJSIP...", log_callback)
+    ep.libDestroy()
 
 
 if __name__ == "__main__":
-    main()
+  executar_automacao(modo="rate_sensitivity")

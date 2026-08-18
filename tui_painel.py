@@ -1,16 +1,24 @@
 # -*- coding: utf-8 -*-
+"""
+Substituto de registro.PainelAoVivo para uso com a interface Textual.
+
+Mantém a MESMA interface pública (atualizar / registrar / __enter__ / __exit__),
+então teste.py e os módulos em baterias/ não precisam de nenhuma alteração —
+eles continuam chamando painel.atualizar(...) e painel.registrar(...) normalmente.
+
+A diferença é que, em vez de desenhar a tabela Rich sozinho, este painel envia
+as atualizações para o SipTesterApp (Textual) via app.call_from_thread, porque
+o loop de eventos do pjsua2 roda numa thread separada da thread de UI.
+"""
 import csv
 import datetime
 import os
-from rich.live import Live
-from rich.panel import Panel
-from rich.table import Table
 
 
-class PainelAoVivo:
+class PainelTUI:
 
-    def __init__(self, csv_filename="resultado_chamadas.csv"):
-        # Garante o caminho absoluto na pasta de execução do script
+    def __init__(self, app, csv_filename="resultado_chamadas.csv"):
+        self.app = app
         self.csv_filename = os.path.abspath(csv_filename)
         self.headers = [
             "Data",
@@ -25,11 +33,9 @@ class PainelAoVivo:
             "Atendida",
             "Número",
         ]
-        self.live = Live(self.gerar_tabela(), refresh_per_second=10, transient=False)
         self._init_csv()
 
     def _init_csv(self):
-        """Cria o arquivo e o cabeçalho imediatamente se não existir."""
         try:
             if not os.path.exists(self.csv_filename):
                 with open(
@@ -37,53 +43,37 @@ class PainelAoVivo:
                 ) as f:
                     writer = csv.writer(f)
                     writer.writerow(self.headers)
-                print(f"[CSV] 📄 Arquivo {self.csv_filename} inicializado com sucesso.")
         except Exception as e:
-            print(f"[ERRO CRÍTICO] Não foi possível criar o arquivo CSV: {e}")
+            self._log(f"[bold red]Não foi possível criar o CSV: {e}[/bold red]")
 
-    def gerar_tabela(
-        self,
-        ramal="-",
-        destino="-",
-        operadora="-",
-        status="AGUARDANDO",
-        codigo_sip="-",
-    ):
-        table = Table(
-            title="[bold blue]PAINEL DE TESTES SIP EM TEMPO REAL[/bold blue]",
-            expand=True,
-        )
-        table.add_column("Ramal", justify="center", style="cyan")
-        table.add_column("Número / Destino", justify="center", style="magenta")
-        table.add_column("Operadora", justify="center", style="green")
-        table.add_column("Status", justify="center", style="yellow")
-        table.add_column("Código SIP", justify="center", style="bold red")
-
-        table.add_row(
-            str(ramal),
-            str(destino),
-            str(operadora),
-            str(status),
-            str(codigo_sip),
-        )
-        return Panel(table, border_style="blue")
+    def _log(self, texto):
+        if self.app:
+            self.app.call_from_thread(self.app.log_thread_safe, texto)
 
     def atualizar(self, ramal, destino, operadora, status, codigo_sip):
-        nova_tabela = self.gerar_tabela(ramal, destino, operadora, status, codigo_sip)
-        self.live.update(nova_tabela)
+        """Chamado a cada mudança de estado da chamada (CALLING, EARLY, CONFIRMED...)."""
+        texto = (
+            f"[dim]{ramal} → {destino} [{operadora}][/dim] "
+            f"status=[cyan]{status}[/cyan] sip=[yellow]{codigo_sip}[/yellow]"
+        )
+        self._log(texto)
 
     def registrar(self, row_data):
-        """Escreve a linha no CSV no novo formato e força o flush no disco."""
+        """Escreve no CSV (lógica idêntica à do PainelAoVivo original) e
+        manda a linha final pra tabela de histórico na UI."""
         try:
             file_exists = os.path.exists(self.csv_filename)
 
-            # Processamento de Data e Horário a partir do timestamp
             raw_ts = row_data.get("timestamp") or row_data.get("DataHorario")
             data_str, horario_str = "", ""
 
             if isinstance(raw_ts, (datetime.datetime, datetime.date)):
                 data_str = raw_ts.strftime("%Y-%m-%d")
-                horario_str = raw_ts.strftime("%H:%M:%S") if isinstance(raw_ts, datetime.datetime) else ""
+                horario_str = (
+                    raw_ts.strftime("%H:%M:%S")
+                    if isinstance(raw_ts, datetime.datetime)
+                    else ""
+                )
             elif isinstance(raw_ts, str) and " " in raw_ts:
                 data_str, horario_str = raw_ts.split(" ", 1)
             elif isinstance(raw_ts, str) and "T" in raw_ts:
@@ -92,7 +82,6 @@ class PainelAoVivo:
                 data_str = row_data.get("Data", str(raw_ts) if raw_ts else "")
                 horario_str = row_data.get("Horário", "")
 
-            # Extração dos demais valores mapeando chaves antigas e novas
             ramal = row_data.get("Ramal") or row_data.get("ramal", "")
             operadora = row_data.get("Operadora") or row_data.get("operadora", "")
             fornecedores = row_data.get("Fornecedores") or row_data.get("tronco", "")
@@ -104,14 +93,11 @@ class PainelAoVivo:
             )
             sip_code = row_data.get("SIP_CODE") or row_data.get("sip_code", "")
             sip_reason = row_data.get("SIP_REASON") or row_data.get("sip_reason", "")
-            
-            # Status final de atendimento (classificacao ou atendida)
             atendida = (
                 row_data.get("Atendida")
                 or row_data.get("classificacao")
                 or row_data.get("atendida", "")
             )
-            
             numero = (
                 row_data.get("Número")
                 or row_data.get("numero")
@@ -136,21 +122,20 @@ class PainelAoVivo:
                 self.csv_filename, mode="a", newline="", encoding="utf-8-sig"
             ) as f:
                 writer = csv.writer(f)
-
                 if not file_exists:
                     writer.writerow(self.headers)
-
                 writer.writerow(linha_formatada)
                 f.flush()
                 os.fsync(f.fileno())
 
-            print(f"[CSV] 💾 Registro gravado com sucesso em {self.csv_filename}")
         except Exception as e:
-            print(f"[ERRO ao gravar CSV no Painel]: {e}")
+            self._log(f"[bold red]Erro ao gravar CSV: {e}[/bold red]")
+
+        if self.app:
+            self.app.call_from_thread(self.app.adicionar_resultado, row_data)
 
     def __enter__(self):
-        self.live.start()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.live.stop()
+        return False

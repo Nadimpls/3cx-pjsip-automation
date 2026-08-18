@@ -8,12 +8,16 @@ console = Console()
 
 wav_writer = None
 
+
 def iniciar_gravacao(call, file_path="gravacao_chamada.wav", target_folder="./audios"):
+    """Inicia a gravação da chamada. Retorna o caminho completo do WAV
+    (ou None se falhar), para que quem chamou possa guardar e usar depois
+    (ex: medir duração do áudio no classificador)."""
     global wav_writer
     try:
         if not os.path.exists(target_folder):
             os.makedirs(target_folder)
-            
+
         full_path = os.path.join(target_folder, file_path)
 
         # Instancia e cria o arquivo de gravação
@@ -35,20 +39,25 @@ def iniciar_gravacao(call, file_path="gravacao_chamada.wav", target_folder="./au
         if call_media:
             # 1. Grava o áudio que vem da outra pessoa (remoto)
             call_media.startTransmit(wav_writer)
-            
-            # 2. (Opcional) Se quiser gravar TAMBÉM o seu microfone/áudio enviado, 
+
+            # 2. (Opcional) Se quiser gravar TAMBÉM o seu microfone/áudio enviado,
             # você pode conectar a porta de áudio do endpoint:
             # ep = pj.Endpoint.instance()
             # ep.audDevManager().getCaptureDevMedia().startTransmit(wav_writer)
 
             print(f"GRAVANDO CHAMADA COM SUCESSO EM: {full_path}")
+            return full_path
         else:
             print("NENHUMA MIDIA DE AUDIO ENCONTRADA NA CHAMADA")
+            return None
 
     except pj.Error as err:
         print(f"Erro ao iniciar gravação: {err.info().reason}")
+        return None
     except Exception as e:
         print(f"Erro inesperado ao iniciar gravação: {e}")
+        return None
+
 
 def parar_gravacao(call):
     global wav_writer
@@ -78,7 +87,6 @@ def parar_gravacao(call):
             pass
 
         print("GRAVAÇÃO FINALIZADA COM SUCESSO")
-
 
     except Exception as err:
         print(f"ERRO AO PARAR A GRAVAÇÃO: {err}")
