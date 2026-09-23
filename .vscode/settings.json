@@ -1,11 +1,17 @@
 {
     "python-envs.defaultEnvManager": "ms-python.python:system",
+    "python.defaultInterpreterPath": "C:\\msys64\\ucrt64\\bin\\python3.14.exe",
     "terminal.integrated.profiles.windows": {
         "MSYS2 MinGW64": {
             "path": "C:\\msys64\\usr\\bin\\bash.exe",
             "args": ["--login", "-i"],
             "env": { "MSYSTEM": "MINGW64", "CHERE_INVOKING": "1" }
+        },
+        "MSYS2 UCRT64": {
+            "path": "C:\\msys64\\usr\\bin\\bash.exe",
+            "args": ["--login", "-i"],
+            "env": { "MSYSTEM": "UCRT64", "CHERE_INVOKING": "1" }
         }
     },
-    "terminal.integrated.defaultProfile.windows": "MSYS2 MinGW64"
+    "terminal.integrated.defaultProfile.windows": "MSYS2 UCRT64"
 }

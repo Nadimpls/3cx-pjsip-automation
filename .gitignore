@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+
+# Segredos e configuração local da interface web — nunca versionar
+config.json
+secret.key

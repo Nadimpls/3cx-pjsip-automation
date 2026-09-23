@@ -1,20 +1,1381 @@
-timestamp,ramal,tronco,pdd_s,setup_time_s,sip_code,sip_reason,atendida,Número
-2026-08-12 13:12:17,9200,OTIMA,1.85,22.71,200,Normal call clearing,True,41988404022
-2026-08-12 13:12:59,9200,PRIMACOM,1.38,20.43,200,Normal call clearing,True,41988404022
-2026-08-12 13:13:20,9200,OKTOR,0.24,14.93,200,Normal call clearing,True,41988404022
-2026-08-12 13:13:44,9200,AGIL,0.67,18.05,200,Normal call clearing,True,41988404022
-2026-08-12 13:14:00,9200,EMBRATEL,2.34,13.2,200,Normal call clearing,True,41988404022
-2026-08-12 13:14:33,9200,OTIMA,0.62,25.54,200,Normal call clearing,True,61992543117
-2026-08-12 13:14:55,9200,PRIMACOM,1.15,9.88,200,Normal call clearing,True,61992543117
-2026-08-12 13:15:21,9200,OKTOR,0.18,21.16,200,Normal call clearing,True,61992543117
-2026-08-12 13:15:41,9200,AGIL,0.88,15.1,200,Normal call clearing,True,61992543117
-2026-08-12 13:16:07,9200,EMBRATEL,1.27,20.85,200,Normal call clearing,True,61992543117
-2026-08-12 13:16:36,9200,OTIMA,1.08,21.24,200,Normal call clearing,True,84991462838
-2026-08-12 13:17:04,9200,PRIMACOM,1.51,22.09,200,Normal call clearing,True,84991462838
-2026-08-12 13:17:30,9200,OKTOR,0.12,22.32,200,Normal call clearing,True,84991462838
-2026-08-12 13:17:49,9200,AGIL,0.77,14.71,200,Normal call clearing,True,84991462838
-2026-08-12 13:18:05,9200,EMBRATEL,1.26,12.54,200,Normal call clearing,True,84991462838
-2026-08-12 13:18:46,9200,OTIMA,0.85,8.3,200,Normal call clearing,True,85992168869
-2026-08-12 13:19:26,9200,PRIMACOM,0.88,9.44,200,Normal call clearing,True,85992168869
-2026-08-12 13:19:29,9200,OKTOR,,,503,Service Unavailable,False,85992168869
-2026-08-12 13:40:26,9200,OTIMA,2.12,,480,Temporarily unavailable,False,41988404022
+timestamp,ramal,tronco,pdd_s,setup_time_s,sip_code,sip_reason,atendida,Número,batch_id,bina_configurado,bina_enviado,bina_header_from,bina_header_pai,bina_header_rpid,sip_events,q850_cause,release_by,release_by_fonte,ring_duration_s,talk_duration_s,total_duration_s,codec,payload_type,packets_enviados,packets_recebidos,packet_loss,packet_loss_pct,jitter_medio_ms,jitter_maximo_ms,rtt_ms,bina_manual,spam,cenario,sip_mensagem_bruta
+2026-08-12 13:12:17,9200,OTIMA,1.85,22.71,200,Normal call clearing,True,41988404022,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:12:59,9200,PRIMACOM,1.38,20.43,200,Normal call clearing,True,41988404022,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:13:20,9200,OKTOR,0.24,14.93,200,Normal call clearing,True,41988404022,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:13:44,9200,AGIL,0.67,18.05,200,Normal call clearing,True,41988404022,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:14:00,9200,EMBRATEL,2.34,13.2,200,Normal call clearing,True,41988404022,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:14:33,9200,OTIMA,0.62,25.54,200,Normal call clearing,True,61992543117,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:14:55,9200,PRIMACOM,1.15,9.88,200,Normal call clearing,True,61992543117,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:15:21,9200,OKTOR,0.18,21.16,200,Normal call clearing,True,61992543117,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:15:41,9200,AGIL,0.88,15.1,200,Normal call clearing,True,61992543117,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:16:07,9200,EMBRATEL,1.27,20.85,200,Normal call clearing,True,61992543117,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:16:36,9200,OTIMA,1.08,21.24,200,Normal call clearing,True,84991462838,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:17:04,9200,PRIMACOM,1.51,22.09,200,Normal call clearing,True,84991462838,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:17:30,9200,OKTOR,0.12,22.32,200,Normal call clearing,True,84991462838,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:17:49,9200,AGIL,0.77,14.71,200,Normal call clearing,True,84991462838,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:18:05,9200,EMBRATEL,1.26,12.54,200,Normal call clearing,True,84991462838,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:18:46,9200,OTIMA,0.85,8.3,200,Normal call clearing,True,85992168869,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:19:26,9200,PRIMACOM,0.88,9.44,200,Normal call clearing,True,85992168869,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:19:29,9200,OKTOR,,,503,Service Unavailable,False,85992168869,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-08-12 13:40:26,9200,OTIMA,2.12,,480,Temporarily unavailable,False,41988404022,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-15 17:43:46,9201,OTIMA,,,403,Forbidden,False,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-15 17:44:14,9201,OTIMA,,,403,Forbidden,False,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-15 18:02:54,9201,PRIMACOM,1.85,6.03,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-15 18:04:31,9201,PRIMACOM,1.54,7.52,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 13:55:31,9201,OTIMA,0.61,11.24,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 13:55:48,9201,PRIMACOM,1.63,9.13,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 13:56:06,9201,OKTOR,0.17,10.26,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 13:56:20,9201,AGIL,0.35,5.88,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 13:56:36,9201,EMBRATEL,1.65,8.57,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 14:25:01,9201,PRIMACOM,1.56,10.29,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 14:30:01,9201,AGIL,0.08,11.34,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 14:48:10,9201,AGIL,0.33,10.07,200,Normal call clearing,True,41984046015,,,,,,,,,,,,,,,,,,,,,,,,,,
+2026-09-16 16:40:45,9201,AGIL,0.15,12.84,200,Normal call clearing,True,41984046015,BATCH-20260916-001,9201,9201,sip:9201@172.17.192.100;tag=f913ba8751784368a0a865397e849363,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.15}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.16}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 13.35}]",,REMOTE,inferido,12.69,5.85,18.69,,,,,,,,,,,,,
+2026-09-16 16:43:15,9201,OTIMA,3.4,12.17,200,Normal call clearing,True,41984046015,BATCH-20260916-002,9201,9201,sip:9201@172.17.192.100;tag=7712b7459eff460b9171120251d94653,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 3.4}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 12.68}]",,REMOTE,inferido,8.77,3.28,15.45,,,,,,,,,,,,,
+2026-09-16 16:43:34,9201,OKTOR,0.45,9.43,200,Normal call clearing,True,41984046015,BATCH-20260916-002,9201,9201,sip:9201@172.17.192.100;tag=f938b69550ca4f84b38c8076b3ef0602,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.45}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.47}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 10.28}]",,REMOTE,inferido,8.98,7.69,17.12,,,,,,,,,,,,,
+2026-09-16 16:43:49,9201,AGIL,0.26,8.52,200,Normal call clearing,True,41984046015,BATCH-20260916-002,9201,9201,sip:9201@172.17.192.100;tag=208944d37d154c0d8628fad1f76f513c,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.26}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.26}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 9.37}]",,REMOTE,inferido,8.27,4.11,12.63,,,,,,,,,,,,,
+2026-09-16 16:49:53,9201,OTIMA,1.01,,487,Request Terminated,False,41984046015,BATCH-20260916-003,9201,9201,sip:9201@172.17.192.100;tag=c05fa3d2ac504746a237615ba40eb454,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.01}]",,LOCAL,inferido,,,1.1,,,,,,,,,,,,,
+2026-09-16 17:40:31,9201,OTIMA,0.53,17.61,200,Normal call clearing,True,41984046015,BATCH-20260916-004,9201,9201,sip:9201@172.17.192.100;tag=d9c7763b9d9a4ab288278aa12995ad8f,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.53}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.53}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 18.11}]",,REMOTE,inferido,17.08,6.48,24.09,GSM,3,36,894,0,0.0,3.15,14.5,2.69,,,,
+2026-09-16 17:40:48,9201,OKTOR,0.39,6.87,200,Normal call clearing,True,41984046015,BATCH-20260916-004,9201,9201,sip:9201@172.17.192.100;tag=7e39f76842ea48408b12b4b3c3ab583e,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.39}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.39}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.69}]",,REMOTE,inferido,6.48,7.94,14.81,GSM,3,32,309,0,0.0,3.84,15.0,4.2,,,,
+2026-09-16 17:41:27,9201,AGIL,0.17,16.62,200,Normal call clearing,True,41984046015,BATCH-20260916-004,9201,9201,sip:9201@172.17.192.100;tag=9604816305184981801724650aa629ef,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.17}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.17}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 17.7}]",,REMOTE,inferido,16.45,20.03,36.64,GSM,3,34,930,0,0.0,3.54,14.75,3.28,,,,
+2026-09-18 14:31:29,9201,OTIMA,5.14,16.31,200,Normal call clearing,True,41984046015,BATCH-20260918-001,9201,9201,sip:9201@172.17.192.100;tag=5219ba853b74401c9d036d901fa445c9,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 5.14}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 5.15}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 16.81}]",,REMOTE,inferido,11.16,4.96,21.27,GSM,3,31,284,0,0.0,11.94,18.12,12.75,,,,
+2026-09-18 14:32:20,9201,OKTOR,0.13,27.48,200,Normal call clearing,True,41984046015,BATCH-20260918-001,9201,9201,sip:9201@172.17.192.100;tag=20cd8995e1484b319095f57851d582de,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.13}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.13}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 28.59}]",,REMOTE,inferido,27.36,21.5,48.98,GSM,3,34,975,1,0.1,5.16,12.88,6.84,,,,
+2026-09-18 14:32:57,9201,AGIL,0.17,13.48,200,Normal call clearing,True,41984046015,BATCH-20260918-001,9201,9201,sip:9201@172.17.192.100;tag=9a788e5feb354697a7746292bf84c87b,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.17}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.17}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 14.56}]",,REMOTE,inferido,13.32,20.94,34.42,GSM,3,34,969,4,0.41,6.45,15.88,3.3,,,,
+2026-09-18 15:00:51,9201,OTIMA,1.19,4.9,200,Normal call clearing,True,41984046015,BATCH-20260918-002,9201,9201,sip:9201@172.17.192.100;tag=006ccc7c647545c8a3929dc4e64561fb,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.19}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.19}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 5.4}]",,REMOTE,inferido,3.71,19.84,24.74,GSM,3,36,1128,1,0.09,6.5,15.38,5.27,,,desligado,
+2026-09-18 15:02:04,9201,PRIMACOM,3.29,47.03,200,Normal call clearing,True,41984046015,BATCH-20260918-002,9201,9201,sip:9201@172.17.192.100;tag=97d34d19b52d4f55a2d4ec17c877f67f,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 3.29}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 3.3}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 48.12}]",,REMOTE,inferido,43.74,23.78,70.81,GSM,3,35,1080,1,0.09,4.81,11.5,9.83,,,desligado,
+2026-09-18 15:02:37,9201,OKTOR,0.15,9.86,200,Normal call clearing,True,41984046015,BATCH-20260918-002,9201,9201,sip:9201@172.17.192.100;tag=3f497fe25e1a4ea3ab82c46880b0532c,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.15}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.15}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 10.7}]",,REMOTE,inferido,9.71,21.1,30.96,GSM,3,34,972,2,0.21,3.78,13.25,3.25,,,desligado,
+2026-09-18 15:03:08,9201,AGIL,0.14,7.52,200,Normal call clearing,True,41984046015,BATCH-20260918-002,9201,9201,sip:9201@172.17.192.100;tag=84b312fe6caf4f199616d44647f205bf,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.14}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.14}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 8.36}]",,REMOTE,inferido,7.38,21.12,28.64,GSM,3,34,974,4,0.41,5.64,12.62,2.91,,,desligado,
+2026-09-18 15:03:46,9201,EMBRATEL,1.03,11.97,200,Normal call clearing,True,41984046015,BATCH-20260918-002,9201,9201,sip:9201@172.17.192.100;tag=825fde42b47749e9950e75327e887f90,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.03}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.04}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 13.04}]",,REMOTE,inferido,10.93,23.79,35.76,GSM,3,35,1084,2,0.18,6.41,12.0,6.8,,,desligado,
+2026-09-18 15:18:44,9201,OTIMA,2.28,11.51,200,Normal call clearing,True,41984046015,BATCH-20260918-003,9201,9201,sip:9201@172.17.192.100;tag=52d771db4a764a0090424ca085b2eb15,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 2.28}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 12.02}]",,REMOTE,inferido,9.23,24.95,36.46,GSM,3,36,1178,0,0.0,5.17,16.12,15.34,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK433fc779;rport
+Max-Forwards: 70
+From: sip:170222341984046015@172.17.192.100;tag=as10ea0b55
+To: sip:9201@172.17.192.100;tag=52d771db4a764a0090424ca085b2eb15
+Call-ID: 816360bd213c4e9486c78f15bc0705ff
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""57b20ff4"", response=""21af00dc6512024f061bd94c76bd8120""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:24:56,9201,OTIMA,0.98,8.58,200,Normal call clearing,True,41984046015,BATCH-20260918-004,9201,9201,sip:9201@172.17.192.100;tag=8746eeea91f64837820980f22bfdcab3,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.98}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.21}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 9.08}]",,REMOTE,inferido,7.59,23.35,31.92,GSM,3,37,1435,2,0.14,4.57,10.62,5.78,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK242e1afa;rport
+Max-Forwards: 70
+From: sip:170222341984046015@172.17.192.100;tag=as128972d6
+To: sip:9201@172.17.192.100;tag=8746eeea91f64837820980f22bfdcab3
+Call-ID: 9bc45f1b4e1443929b5617b65a1a2955
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""52c71860"", response=""b5fdde63aefece5396146d43de328ec7""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:36:32,9201,OTIMA,1.25,,487,Request Terminated,False,41984046015,BATCH-20260918-005,9201,9201,sip:9201@172.17.192.100;tag=025a8f319587421e90376d0bc00223d7,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.25}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.46}]",,LOCAL,inferido,,,5.73,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj3a1848a4018142cca3e9ec23faa8b8f9;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=025a8f319587421e90376d0bc00223d7
+To: sip:170222341984046015@172.17.192.100;tag=as09a1e673
+Call-ID: 4a8142c252f0491bb5a194350a113e8d
+CSeq: 5170 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222341984046015@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1850664715 1850664715 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 17472 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:37:14,9201,OTIMA,1.23,6.59,200,Normal call clearing,True,41984046015,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=c83c66ce11d44f35827a7e2948ccdf14,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.23}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.23}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.09}]",,REMOTE,inferido,5.36,21.82,28.41,GSM,3,37,1319,4,0.3,5.9,14.0,3.94,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK41438a00;rport
+Max-Forwards: 70
+From: sip:170222341984046015@172.17.192.100;tag=as088c632f
+To: sip:9201@172.17.192.100;tag=c83c66ce11d44f35827a7e2948ccdf14
+Call-ID: 979ab1334ff3479aa07d2f621bb17449
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""6c552181"", response=""aeff7068cd977885fda1886314aced53""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:37:45,9201,PRIMACOM,1.68,8.32,200,Normal call clearing,True,41984046015,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=96083672ffb149848cce8ae486badd9c,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.68}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.68}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 9.13}]",,REMOTE,inferido,6.65,20.78,29.1,GSM,3,34,972,0,0.0,5.97,14.12,6.85,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK3c791d4f;rport
+Max-Forwards: 70
+From: sip:170222441984046015@172.17.192.100;tag=as7901f3be
+To: sip:9201@172.17.192.100;tag=96083672ffb149848cce8ae486badd9c
+Call-ID: 4ba6a581a28d42eca9456ad26fab9603
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""23d9fdbe"", response=""4bf99b932012dfa803e6e7e22cdf2f4a""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:38:14,9201,OKTOR,0.1,6.12,200,Normal call clearing,True,41984046015,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=85e0e94f32b44690a48ee97de2ffb9aa,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.1}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.1}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 6.93}]",,REMOTE,inferido,6.03,21.31,27.44,GSM,3,35,1014,0,0.0,6.37,15.62,6.45,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK691529a0;rport
+Max-Forwards: 70
+From: sip:170222541984046015@172.17.192.100;tag=as70d73718
+To: sip:9201@172.17.192.100;tag=85e0e94f32b44690a48ee97de2ffb9aa
+Call-ID: d4df6180d431468d948a1ee5b6d839bb
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""1ba6603b"", response=""7a253935f79f95e566e7ca2f05825e6f""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:38:45,9201,AGIL,0.11,6.93,200,Normal call clearing,True,41984046015,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=09925c57ad8a49418bc4647219adf93b,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.11}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.12}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.72}]",,REMOTE,inferido,6.81,21.8,28.72,GSM,3,35,1018,0,0.0,6.14,16.12,6.79,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK4a5c2441;rport
+Max-Forwards: 70
+From: sip:170222641984046015@172.17.192.100;tag=as1e8e6166
+To: sip:9201@172.17.192.100;tag=09925c57ad8a49418bc4647219adf93b
+Call-ID: 469f2173c52d48d48e6ad7b13280f2a0
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""4302a3d8"", response=""a7dd0f68b6634bac30e13eac0897e631""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:39:18,9201,EMBRATEL,1.14,8.57,200,Normal call clearing,True,41984046015,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=73f1f3e1e7424bb881668fd61fa86c72,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.14}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.15}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 9.38}]",,REMOTE,inferido,7.42,22.42,30.99,GSM,3,35,1074,0,0.0,10.51,17.88,5.05,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK79bfa23b;rport
+Max-Forwards: 70
+From: sip:170222141984046015@172.17.192.100;tag=as0c978fda
+To: sip:9201@172.17.192.100;tag=73f1f3e1e7424bb881668fd61fa86c72
+Call-ID: 13974fb4a1514e4786149144fb788460
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""1ab92a06"", response=""92f69e041a9ec1148b1a5ab086bec18a""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:39:26,9201,OTIMA,1.74,,404,Not Found,False,83981835734,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=3a9865df6dbb45049602f36f461994c6,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.74}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.74}]",,NETWORK,inferido,,,2.81,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj262ce547149741ffadddea9528fc1868;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=3a9865df6dbb45049602f36f461994c6
+To: sip:170222383981835734@172.17.192.100;tag=as061b6b01
+Call-ID: f2e7e21ae6f2484fb409a457c231dff5
+CSeq: 6366 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222383981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 310
+
+v=0
+o=root 941156861 941156861 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 28896 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:39:35,9201,PRIMACOM,0.59,,480,Temporarily unavailable,False,83981835734,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=0a24feb7746b4b4fbf2018b3c083a4f9,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.59}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.59}]",,NETWORK,inferido,,,6.51,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj488552274ec74c45ac1cbae7e155b532;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=0a24feb7746b4b4fbf2018b3c083a4f9
+To: sip:170222483981835734@172.17.192.100;tag=as7658107f
+Call-ID: e41eb99e48f546b28002638c74dba0ee
+CSeq: 25441 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222483981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1882089495 1882089495 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 29512 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:39:54,9201,OKTOR,0.1,,404,Not Found,False,83981835734,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=e39db2e919ed48a984923d25fa395cfb,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.1}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.1}]",,NETWORK,inferido,,,17.24,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj5d206b94f2094637be1d38d198004006;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=e39db2e919ed48a984923d25fa395cfb
+To: sip:170222583981835734@172.17.192.100;tag=as62946a34
+Call-ID: da0c4f1db113445fa61214f53c5f1db2
+CSeq: 31644 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222583981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1620835131 1620835131 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 22110 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:40:46,9201,AGIL,0.06,,480,Temporarily unavailable,False,83981835734,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=e9aa485c5f864b01a3d454307a62ca41,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.06}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.06}]",,NETWORK,inferido,,,49.65,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj0ec763f7cd064c51a35cd2834fbf07c5;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=e9aa485c5f864b01a3d454307a62ca41
+To: sip:170222683981835734@172.17.192.100;tag=as0cfaabc9
+Call-ID: 502c342a9bbd4fa9a1f691e8757486df
+CSeq: 22059 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222683981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1784847015 1784847015 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 25176 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:40:55,9201,EMBRATEL,0.94,,404,Not Found,False,83981835734,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=a5ff06e4653349f995af45cc4b552c1e,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.94}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.94}]",,NETWORK,inferido,,,6.87,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPjafa543161c584642b9f781e24f929270;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=a5ff06e4653349f995af45cc4b552c1e
+To: sip:170222183981835734@172.17.192.100;tag=as6e3ba51d
+Call-ID: fb2abafb3a2144489b2cc84c4f49c178
+CSeq: 14439 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222183981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1627509918 1627509918 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 17214 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:41:36,9201,OTIMA,0.99,8.27,200,Normal call clearing,True,21973599418,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=8a04296dd2c8442eb1707861142be84d,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.99}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.99}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 8.78}]",,REMOTE,inferido,7.29,27.12,35.39,GSM,3,38,1689,2,0.12,5.91,16.5,14.78,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK79adc9d2;rport
+Max-Forwards: 70
+From: sip:170222321973599418@172.17.192.100;tag=as12ce7033
+To: sip:9201@172.17.192.100;tag=8a04296dd2c8442eb1707861142be84d
+Call-ID: 80e82e0a13de4067bc017acfa17b8549
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""65ace488"", response=""1d13f0f7514a2eead9dbd2100a7cd378""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:42:34,9201,PRIMACOM,20.9,28.2,200,Normal call clearing,True,21973599418,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=39c762fad8414557b4d13e7432403cc8,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 20.9}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 20.9}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 29.24}]",,REMOTE,inferido,7.29,27.16,55.36,GSM,3,36,1261,1,0.08,7.18,15.25,7.23,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK1f09c0e1;rport
+Max-Forwards: 70
+From: sip:170222421973599418@172.17.192.100;tag=as6c59d50d
+To: sip:9201@172.17.192.100;tag=39c762fad8414557b4d13e7432403cc8
+Call-ID: ee1d198e3cd04c778e4f90414266152c
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""2c5d003c"", response=""c5b4f94e81113e66efafd971cc24e445""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:43:11,9201,OKTOR,0.11,8.1,200,Normal call clearing,True,21973599418,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=855abd90937348b6958cbfed6cae0707,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.11}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.12}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 8.91}]",,REMOTE,inferido,7.99,27.1,35.21,GSM,3,36,1272,1,0.08,5.06,13.75,4.13,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK79a828c8;rport
+Max-Forwards: 70
+From: sip:170222521973599418@172.17.192.100;tag=as6ecaae46
+To: sip:9201@172.17.192.100;tag=855abd90937348b6958cbfed6cae0707
+Call-ID: 98ab11ae62bc4717867af5b44a5a6540
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""6502f466"", response=""642aec8d4b0be162aac02925d3ff80d1""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:43:55,9201,AGIL,0.15,9.46,200,Normal call clearing,True,21973599418,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=60eb7ae43471489292618dd486207f8c,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.15}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.15}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 10.27}]",,REMOTE,inferido,9.31,32.93,42.39,GSM,3,37,1575,5,0.32,4.95,14.0,6.98,,,desligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK6973c8b7;rport
+Max-Forwards: 70
+From: sip:170222621973599418@172.17.192.100;tag=as26c49ade
+To: sip:9201@172.17.192.100;tag=60eb7ae43471489292618dd486207f8c
+Call-ID: 292e22b49ebd4905bd995a8ab5078b37
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""2369b651"", response=""7ab53455b16c99f2e127a52566d68f01""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 15:44:20,9201,EMBRATEL,,,603,Declined,False,21973599418,BATCH-20260918-006,9201,9201,sip:9201@172.17.192.100;tag=fa462b5f18894450bc551b7cdb4d4c50,,,[],,NETWORK,inferido,,,23.15,,,,,,,,,,,,desligado,"SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj272471d0ef7f4a65b726f9f6dbea9d4e;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=fa462b5f18894450bc551b7cdb4d4c50
+To: sip:170222121973599418@172.17.192.100
+Call-ID: 20af640ec3d74cc8a53eb78c300446c5
+CSeq: 7301 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222121973599418@172.17.192.100:5060>
+Content-Length: 0
+
+"
+2026-09-18 15:55:44,9201,OTIMA,,,404,Not Found,False,83981835734,BATCH-20260918-007,9201,9201,sip:9201@172.17.192.100;tag=f2b121f48d4d42ec96cd5cd365e7769b,,,[],,NETWORK,inferido,,,0.56,,,,,,,,,,,,desligado,"SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPjaff85a0fd01f4bbca6010e3cbb652d47;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=f2b121f48d4d42ec96cd5cd365e7769b
+To: sip:170222383981835734@172.17.192.100
+Call-ID: e6d47c8835e344608234f7cc7d680eff
+CSeq: 9002 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222383981835734@172.17.192.100:5060>
+Content-Length: 0
+
+"
+2026-09-18 15:55:52,9201,PRIMACOM,0.61,,480,Temporarily unavailable,False,83981835734,BATCH-20260918-007,9201,9201,sip:9201@172.17.192.100;tag=b99158abdf96453490fbc157a740c434,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.61}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.61}]",,NETWORK,inferido,,,6.8,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj1ebdf6f9aecc41a895017fb4a86ad128;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=b99158abdf96453490fbc157a740c434
+To: sip:170222483981835734@172.17.192.100;tag=as32be3952
+Call-ID: c6a366f8a0384ddda42af33fbffc7498
+CSeq: 13402 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222483981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1366607753 1366607753 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 18634 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:56:03,9201,OKTOR,0.02,,404,Not Found,False,83981835734,BATCH-20260918-007,9201,9201,sip:9201@172.17.192.100;tag=8dade95416e241a080fc720a39e40141,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.02}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.03}]",,NETWORK,inferido,,,8.49,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj193e7b4de59e439e825e33dc3792c37e;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=8dade95416e241a080fc720a39e40141
+To: sip:170222583981835734@172.17.192.100;tag=as643051b5
+Call-ID: b453c0bb1f084b16951ededa220d6611
+CSeq: 21465 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222583981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 310
+
+v=0
+o=root 471682329 471682329 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 22186 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:56:09,9201,AGIL,0.12,,480,Temporarily unavailable,False,83981835734,BATCH-20260918-007,9201,9201,sip:9201@172.17.192.100;tag=4da27b17d8694e31b1c62264e47a4987,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.12}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.12}]",,NETWORK,inferido,,,3.83,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj55abc7d15fe84b84adb95172f0a282df;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=4da27b17d8694e31b1c62264e47a4987
+To: sip:170222683981835734@172.17.192.100;tag=as00d4fb16
+Call-ID: 711ab64013a34eeca93cda555a63916c
+CSeq: 9017 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222683981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1262330433 1262330433 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 15310 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 15:56:18,9201,EMBRATEL,0.77,,404,Not Found,False,83981835734,BATCH-20260918-007,9201,9201,sip:9201@172.17.192.100;tag=8809dfba95d8497abe1611a1ece60a00,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.77}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.78}]",,NETWORK,inferido,,,6.7,,,,,,,,,,,,desligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj640a1cb6b9654eac9989c73a7d51ba3c;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=8809dfba95d8497abe1611a1ece60a00
+To: sip:170222183981835734@172.17.192.100;tag=as2b09fabf
+Call-ID: 56324f89b2714f0d8b80c9eb1f25c253
+CSeq: 4640 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222183981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1502472528 1502472528 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 26658 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 16:08:35,9201,OTIMA,5.88,,404,Not Found,False,83981835734,BATCH-20260918-008,9201,9201,sip:9201@172.17.192.100;tag=70725840085945a8881379a7a818cb54,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 5.88}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 5.89}]",,NETWORK,inferido,,,6.14,,,,,,,,,,,,ligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj6ee80ec2113042509d60913b86946120;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=70725840085945a8881379a7a818cb54
+To: sip:170222383981835734@172.17.192.100;tag=as5341401f
+Call-ID: da913c8695424bfdb434ae8983ce1e0a
+CSeq: 15991 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222383981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1002234477 1002234477 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 28038 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 16:08:42,9201,PRIMACOM,0.67,,480,Temporarily unavailable,False,83981835734,BATCH-20260918-008,9201,9201,sip:9201@172.17.192.100;tag=37e8fdd1bfe941a2beb291236f2aae44,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.67}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.67}]",,NETWORK,inferido,,,5.82,,,,,,,,,,,,ligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj50b7a67da04a4f5db6c80e40c6d40fb6;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=37e8fdd1bfe941a2beb291236f2aae44
+To: sip:170222483981835734@172.17.192.100;tag=as7eff122a
+Call-ID: cecc879f173041b2b6f4208aa471fac0
+CSeq: 18065 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222483981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1358079208 1358079208 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 27462 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 16:08:46,9201,OKTOR,0.03,,404,Not Found,False,83981835734,BATCH-20260918-008,9201,9201,sip:9201@172.17.192.100;tag=91bcf411b86e4479b28da17191535d72,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.03}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.03}]",,NETWORK,inferido,,,1.16,,,,,,,,,,,,ligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPj4d28829299d646019b2febe7548e0415;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=91bcf411b86e4479b28da17191535d72
+To: sip:170222583981835734@172.17.192.100;tag=as155f2b80
+Call-ID: 4aeb4d6158b84027ae8f586fd5bde8f2
+CSeq: 8548 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222583981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1861398195 1861398195 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 23500 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 16:08:48,9201,AGIL,0.09,,487,Request Terminated,False,83981835734,BATCH-20260918-008,9201,9201,sip:9201@172.17.192.100;tag=08c4e4ec188948aa9d9829ac0c927c88,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.09}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.09}]",,LOCAL,inferido,,,0.09,,,,,,,,,,,,ligado,"SIP/2.0 183 Session Progress
+Via: SIP/2.0/UDP 192.168.186.42:5060;branch=z9hG4bKPjf18a92b096bf424badd060a0137a6481;received=192.168.186.42;rport=5060
+From: sip:9201@172.17.192.100;tag=08c4e4ec188948aa9d9829ac0c927c88
+To: sip:170222683981835734@172.17.192.100;tag=as529c8c28
+Call-ID: 5b8d02443d70464b8df7617314505e79
+CSeq: 23885 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222683981835734@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 312
+
+v=0
+o=root 1296877923 1296877923 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 13790 RTP/AVP 3 8 0 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:8 PCMA/8000
+a=rtpmap:0 PCMU/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 100 98
+"
+2026-09-18 16:10:23,9201,OTIMA,1.64,15.31,200,Normal call clearing,True,41984046015,BATCH-20260918-009,9201,9201,sip:9201@172.17.192.100;tag=321d579f06124cbeb0368c7662e480fe,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.64}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 15.81}]",,REMOTE,inferido,13.66,6.5,21.8,GSM,3,31,255,0,0.0,4.33,10.5,3.39,4133019568,sim,ligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK39c15752;rport
+Max-Forwards: 70
+From: sip:170222341984046015@172.17.192.100;tag=as4e04db85
+To: sip:9201@172.17.192.100;tag=321d579f06124cbeb0368c7662e480fe
+Call-ID: e7e245b2d74145b287d5460e6f9fc3ae
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""07b38654"", response=""822a59e51883462eb3252d17f000bc12""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 16:11:02,9201,PRIMACOM,0.73,29.01,200,Normal call clearing,True,41984046015,BATCH-20260918-009,9201,9201,sip:9201@172.17.192.100;tag=cd3dfa0051db4cb88d21bd58a7b2dd3f,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.73}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.48}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 30.07}]",,REMOTE,inferido,28.28,7.14,36.15,GSM,3,32,256,2,0.78,4.18,11.75,4.59,41988396908,sim,ligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK2dae9c24;rport
+Max-Forwards: 70
+From: sip:170222441984046015@172.17.192.100;tag=as4fcd8211
+To: sip:9201@172.17.192.100;tag=cd3dfa0051db4cb88d21bd58a7b2dd3f
+Call-ID: e7ba87458c864e84b0fe1aef574aca13
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""172c0aaf"", response=""3848bca22195b334ff2c5958a1d117a0""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 16:11:39,9201,OKTOR,0.08,28.49,200,Normal call clearing,True,41984046015,BATCH-20260918-009,9201,9201,sip:9201@172.17.192.100;tag=599cabaadbf04c5d8097bef9c870fedd,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.08}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.08}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 29.55}]",,REMOTE,inferido,28.41,7.29,35.77,GSM,3,32,303,0,0.0,2.12,8.25,3.11,41987845259,nao,ligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK26334f8f;rport
+Max-Forwards: 70
+From: sip:170222541984046015@172.17.192.100;tag=as422db5c3
+To: sip:9201@172.17.192.100;tag=599cabaadbf04c5d8097bef9c870fedd
+Call-ID: c70d163d10844825888df24daaa35389
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""12b76acd"", response=""7ccbb065668e196d65a46fada348ba82""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 16:12:14,9201,AGIL,0.13,24.36,200,Normal call clearing,True,41984046015,BATCH-20260918-009,9201,9201,sip:9201@172.17.192.100;tag=e72ff272bed44feea332647518d959dc,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.13}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.13}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 25.44}]",,REMOTE,inferido,24.23,7.84,32.2,GSM,3,32,302,0,0.0,4.61,9.88,7.34,41987650941,sim,ligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK7e0c24db;rport
+Max-Forwards: 70
+From: sip:170222641984046015@172.17.192.100;tag=as3a37bc3e
+To: sip:9201@172.17.192.100;tag=e72ff272bed44feea332647518d959dc
+Call-ID: 844b3698333746c8bee3cb4e3067b7dc
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""4306324c"", response=""6abbc9baa69b06ae1d4afeaea187ec40""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-18 16:12:42,9201,EMBRATEL,1.16,19.19,200,Normal call clearing,True,41984046015,BATCH-20260918-009,9201,9201,sip:9201@172.17.192.100;tag=8358d0fdffd144fba33edcc8f6331c14,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.16}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.16}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 20.25}]",,REMOTE,inferido,18.02,7.14,26.33,GSM,3,32,253,0,0.0,6.79,10.62,3.57,4132023995,sim,ligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK3fae73cc;rport
+Max-Forwards: 70
+From: sip:170222141984046015@172.17.192.100;tag=as376c9631
+To: sip:9201@172.17.192.100;tag=8358d0fdffd144fba33edcc8f6331c14
+Call-ID: 20f30637c5114cebaaff80f7cfe59843
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""7a9750b7"", response=""b9d016be4f89b670439e7a6f88e1aa0b""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:06:13,9201,LEMIT,,,408,Request Timeout,False,41984046015,BATCH-20260922-001,9201,9201,sip:9201@172.17.192.100;tag=969532bc86d34cd2a648368d096220b2,,,[],,NETWORK,inferido,,,32.02,,,,,,,,,,,,ligado,
+2026-09-22 16:12:32,9201,LEMIT,,,408,Request Timeout,False,41984046015,BATCH-20260922-002,9201,9201,sip:9201@172.17.192.100;tag=eed035ff3e614eb9846f9bfdceca51d5,,,[],,NETWORK,inferido,,,32.02,,,,,,,,,,,,ligado,
+2026-09-22 16:18:17,9201,AGIL,,,408,Request Timeout,False,41984046015,BATCH-20260922-003,9201,9201,sip:9201@172.17.192.100;tag=e07e615d90144fcd8a6e2c7593ae8b98,,,[],,NETWORK,inferido,,,32.02,,,,,,,,,,,,ligado,
+2026-09-22 16:20:45,9201,AGIL,0.07,13.34,200,Normal call clearing,True,41984046015,BATCH-20260922-004,9201,9201,sip:9201@172.17.192.100;tag=8a2a7ddb6bab4f2d8e72c0f6f474c758,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.07}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.07}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 13.84}]",,REMOTE,inferido,13.27,6.28,19.62,GSM,3,31,747,0,0.0,0.24,2.75,2.07,41984530323,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK0de19140;rport
+Max-Forwards: 70
+From: sip:170222641984046015@172.17.192.100;tag=as195390b6
+To: sip:9201@172.17.192.100;tag=8a2a7ddb6bab4f2d8e72c0f6f474c758
+Call-ID: d93e649cb0d645779c9d2baffc7c15d2
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""391fbd94"", response=""bb09e410eea12f704ef58d544c89ae48""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:21:03,9201,LEMIT,1.35,9.09,200,Normal call clearing,True,41984046015,BATCH-20260922-004,9201,9201,sip:9201@172.17.192.100;tag=ba08a32454ab495c9fb07a6663bacca7,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.35}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.35}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 9.88}]",,REMOTE,inferido,7.74,7.44,16.52,GSM,3,32,310,0,0.0,5.64,6.25,2.33,41988846243,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK518150f8;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as06eb480c
+To: sip:9201@172.17.192.100;tag=ba08a32454ab495c9fb07a6663bacca7
+Call-ID: bcea71f01ffd4e8598601a0895529cc0
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""58d300b9"", response=""54206703b4526ae18894093259a3ddb0""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:33:07,9201,LEMIT,0.96,14.46,200,Normal call clearing,True,41984046015,BATCH-20260922-005,9201,9201,sip:9201@172.17.192.100;tag=ec6d4f5d81ca47ecb46eb5ed50733ea1,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.96}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.96}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 14.96}]",,REMOTE,inferido,13.5,6.51,20.97,GSM,3,35,957,0,0.0,5.96,6.75,2.53,"41996155692 ""Restourante da jaque""",sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK0516ebb1;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as7cbf7cf6
+To: sip:9201@172.17.192.100;tag=ec6d4f5d81ca47ecb46eb5ed50733ea1
+Call-ID: 07a13734adc748ae9dd00dce2e16ce68
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""6930c230"", response=""f72d4e78dc1040ceb68a821723c36302""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:40:50,9201,LEMIT,0.87,10.24,200,Normal call clearing,True,41984046015,BATCH-20260922-006,9201,9201,sip:9201@172.17.192.100;tag=b599b38a45504c2cae2ce26d294c6ea3,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.87}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.87}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 10.75}]",,REMOTE,inferido,9.37,6.57,16.81,GSM,3,34,754,0,0.0,5.89,6.38,2.3,41988846534,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK3eba76a1;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as647e0fdb
+To: sip:9201@172.17.192.100;tag=b599b38a45504c2cae2ce26d294c6ea3
+Call-ID: c7f45ce556274c7ca8a0fbaad954e40d
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""764161ce"", response=""3da6e3a9bf862b9d3df0d21b65234b24""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:42:05,9201,LEMIT,1.1,9.46,200,Normal call clearing,True,41984046015,BATCH-20260922-007,9201,9201,sip:9201@172.17.192.100;tag=01652ec4d32c438993b26082167c1689,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.1}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.11}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 9.96}]",,REMOTE,inferido,8.35,6.13,15.58,GSM,3,34,697,0,0.0,5.72,6.25,2.18,41995609137,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK06b1057d;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as4eb0d663
+To: sip:9201@172.17.192.100;tag=01652ec4d32c438993b26082167c1689
+Call-ID: 760dc37ed3c94bfd9d559030a42e8e15
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""0819a629"", response=""9a0bd1b2e997e52638d8b5ff31ad90e4""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:43:20,9201,LEMIT,1.37,6.9,200,Normal call clearing,True,41984046015,BATCH-20260922-008,9201,9201,sip:9201@172.17.192.100;tag=9572a94e73ba413aae5ce8f2e52b15b0,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.37}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.37}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.4}]",,REMOTE,inferido,5.53,9.38,16.28,GSM,3,34,706,0,0.0,5.78,6.25,2.46,41987775952,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK64c3ef68;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as195a7ea9
+To: sip:9201@172.17.192.100;tag=9572a94e73ba413aae5ce8f2e52b15b0
+Call-ID: a0b776c3c2764dba8e549f87276041aa
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""611c0d1f"", response=""a9c01b565c7ad3934ab5c2fd0935090a""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:45:06,9201,LEMIT,1.09,7.26,200,Normal call clearing,True,41984046015,BATCH-20260922-009,9201,9201,sip:9201@172.17.192.100;tag=c058613117bd4a2ea658f68b4f09f991,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.09}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.09}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.77}]",,REMOTE,inferido,6.17,8.12,15.38,GSM,3,31,689,0,0.0,5.86,6.5,1.91,41997966641,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK625b761c;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as4cb510ac
+To: sip:9201@172.17.192.100;tag=c058613117bd4a2ea658f68b4f09f991
+Call-ID: f01a5a6f58f146bbaadd5a854e6cba52
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""7e6b1051"", response=""9ebf6f84a69157206146aadc2360bd04""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:46:25,9201,LEMIT,4.01,10.64,200,Normal call clearing,True,41984046015,BATCH-20260922-010,9201,9201,sip:9201@172.17.192.100;tag=e59fcba8a4ef47f6bec5173d9102e2b2,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 4.01}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 4.01}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 11.14}]",,REMOTE,inferido,6.63,7.57,18.2,GSM,3,31,664,0,0.0,5.92,6.5,1.95,0041987450604,nao,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK72ceabc9;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as1b3075d9
+To: sip:9201@172.17.192.100;tag=e59fcba8a4ef47f6bec5173d9102e2b2
+Call-ID: 59955d7810a144148c82f1122cb69f1b
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""036ac298"", response=""ea9961c5c6c5b66b08c78d8e82db420a""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:47:44,9201,LEMIT,1.48,9.1,200,Normal call clearing,True,41984046015,BATCH-20260922-011,9201,9201,sip:9201@172.17.192.100;tag=1cd05424bdb74aeb82d9710010d2ac4e,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.48}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.49}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 9.6}]",,REMOTE,inferido,7.61,8.31,17.41,GSM,3,34,767,0,0.0,5.85,6.25,1.88,41998140811,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK3ec6fe34;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as3e90f7a3
+To: sip:9201@172.17.192.100;tag=1cd05424bdb74aeb82d9710010d2ac4e
+Call-ID: 587c02ff0cef4b1cb94351d0ae263512
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""60dbe370"", response=""4e7bd4bd8b9a88cf94f6779bd8ed0fd7""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:50:04,9201,LEMIT,2.16,6.58,200,Normal call clearing,True,41984046015,BATCH-20260922-012,9201,9201,sip:9201@172.17.192.100;tag=7dedcc2a80b64ed2bbf1ea45b7c0b8c4,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 2.16}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 2.16}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.09}]",,REMOTE,inferido,4.43,7.52,14.1,GSM,3,34,552,0,0.0,5.86,6.38,2.31,41999112066 GMN Business,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK389944d1;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as725bb207
+To: sip:9201@172.17.192.100;tag=7dedcc2a80b64ed2bbf1ea45b7c0b8c4
+Call-ID: e6a7682d168442b3a66c8b8a70ebd48e
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""792b38f6"", response=""652a1bd1e8efaf3fdc25edf91e890117""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:51:27,9201,LEMIT,0.82,5.71,200,Normal call clearing,True,41984046015,BATCH-20260922-013,9201,9201,sip:9201@172.17.192.100;tag=a5376cdbde754b84b4f0846eb9a5fe9a,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.82}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.82}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 6.21}]",,REMOTE,inferido,4.89,8.94,14.65,GSM,3,31,676,0,0.0,5.73,6.25,2.12,41988393681,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK764a075e;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as5def3daa
+To: sip:9201@172.17.192.100;tag=a5376cdbde754b84b4f0846eb9a5fe9a
+Call-ID: b32f74b438fd4f7c94217e5b2f91a67e
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""097927d0"", response=""1a42db7ab33b26055f494860cc4f16b8""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:56:10,9201,LEMIT,0.88,6.75,200,Normal call clearing,True,41984046015,BATCH-20260922-014,9201,9201,sip:9201@172.17.192.100;tag=3ae61bb7df5c461584d72779f148f7d7,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.88}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.88}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.25}]",,REMOTE,inferido,5.87,9.92,16.67,GSM,3,31,786,0,0.0,5.87,6.38,2.05,41984620817,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK31d52954;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as69ef81b2
+To: sip:9201@172.17.192.100;tag=3ae61bb7df5c461584d72779f148f7d7
+Call-ID: fa3d6daa3d4542ed83f1506d43c0f49e
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""01df2560"", response=""e65ace13bcc114b77dfe2718e20af7d8""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 16:58:48,9201,LEMIT,1.28,12.22,200,Normal call clearing,True,41984046015,BATCH-20260922-015,9201,9201,sip:9201@172.17.192.100;tag=7fb7b179c26c4b999b441a54c93eb37e,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.28}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.28}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 12.72}]",,REMOTE,inferido,10.94,6.05,18.26,GSM,3,31,830,0,0.0,5.95,6.38,1.84,41987792683,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK1756c8c1;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as193e95ea
+To: sip:9201@172.17.192.100;tag=7fb7b179c26c4b999b441a54c93eb37e
+Call-ID: b85cafc075754c05b7a4b6dca1e025dc
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""4d1c31f6"", response=""ea2ce42224f81efc45ceea0457feefb4""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:19:31,9201,LEMIT,1.12,8.06,200,OK,True,41984046015,BATCH-20260922-016,9201,9201,sip:9201@172.17.192.100;tag=db2782f38b63422b9906987dcc593200,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.12}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.12}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 8.56}]",,LOCAL,inferido,6.94,11.88,19.94,GSM,3,31,937,0,0.0,5.86,6.25,1.21,,,desligado,"SIP/2.0 200 OK
+Via: SIP/2.0/UDP 192.168.186.24:5060;branch=z9hG4bKPjc995d55b07b44ee79e4f3cb9cbecdf08;received=192.168.186.24;rport=5060
+From: sip:9201@172.17.192.100;tag=db2782f38b63422b9906987dcc593200
+To: sip:225123441984046015@172.17.192.100;tag=as042252b8
+Call-ID: 8618b7d67b72462da146fef5246a9e54
+CSeq: 3378 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:225123441984046015@172.17.192.100:5060>
+Content-Type: application/sdp
+Require: timer
+Content-Length: 259
+
+v=0
+o=root 1504140885 1504140886 IN IP4 172.17.192.100
+s=Asterisk PBX 11.17.1
+c=IN IP4 172.17.192.100
+t=0 0
+m=audio 15636 RTP/AVP 3 121
+a=rtpmap:3 GSM/8000
+a=rtpmap:121 telephone-event/8000
+a=fmtp:121 0-16
+a=ptime:20
+a=sendrecv
+m=text 0 RTP/AVP 0
+"
+2026-09-22 17:20:19,9201,LEMIT,1.8,5.86,200,Normal call clearing,True,41984046015,BATCH-20260922-017,9201,9201,sip:9201@172.17.192.100;tag=22d2388ce301453d9d7db2a688940936,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.8}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.8}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 6.37}]",,REMOTE,inferido,4.06,20.26,26.13,GSM,3,31,1209,0,0.0,5.83,6.25,1.36,,,desligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK3db71a56;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as4f1eba1e
+To: sip:9201@172.17.192.100;tag=22d2388ce301453d9d7db2a688940936
+Call-ID: 6076bac40d51421f838348d1453ad74e
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""79e80c59"", response=""930c289cb4f7136a5561975f92401c96""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:21:04,9201,LEMIT,0.84,5.5,200,Normal call clearing,True,41984046015,BATCH-20260922-018,9201,9201,sip:9201@172.17.192.100;tag=50762ea2b8d242dfb4cc61421affdb29,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.84}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.84}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 6.01}]",,REMOTE,inferido,4.66,19.96,25.46,GSM,3,31,1180,0,0.0,5.95,6.5,1.6,,,desligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK24273ab0;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as4150abc8
+To: sip:9201@172.17.192.100;tag=50762ea2b8d242dfb4cc61421affdb29
+Call-ID: a72c967e58b444999d7edd874a6a051e
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""03284985"", response=""9bf97e73efaf293440df0648ab5ee29e""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:23:49,9201,LEMIT,1.68,5.46,200,Normal call clearing,True,41984046015,BATCH-20260922-019,9201,9201,sip:9201@172.17.192.100;tag=cb6e069f78b741efa5946c6bae5740e0,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.68}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.68}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 5.96}]",,REMOTE,inferido,3.78,20.42,25.88,GSM,3,31,1189,0,0.0,5.93,6.38,1.8,,,desligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK68f5fdb7;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as3f8c97d0
+To: sip:9201@172.17.192.100;tag=cb6e069f78b741efa5946c6bae5740e0
+Call-ID: b56f9b6fd3814d018152f4ce39c04192
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""31edb529"", response=""2f48d625ba0cefdc9d7f88006bc61d79""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:24:56,9201,LEMIT,0.84,5.61,200,Normal call clearing,True,41984046015,BATCH-20260922-020,9201,9201,sip:9201@172.17.192.100;tag=7d4b4fc3af86435288fc6a4406145838,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.84}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.84}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 6.12}]",,REMOTE,inferido,4.77,19.79,25.4,GSM,3,36,1187,1,0.08,6.02,9.5,1.51,,,desligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK494b1daa;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as523f9dfa
+To: sip:9201@172.17.192.100;tag=7d4b4fc3af86435288fc6a4406145838
+Call-ID: 886778c9ec0645798a4b5e8efb672100
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""011cd2e6"", response=""94992893c5135ee42bca008e9e7116a5""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:25:27,9201,LEMIT,1.08,5.44,200,Normal call clearing,True,41984046015,BATCH-20260922-020,9201,9201,sip:9201@172.17.192.100;tag=0044cc385f4e4f6381ede883e912d6d3,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.08}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.08}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 6.29}]",,REMOTE,inferido,4.36,20.39,25.83,GSM,3,34,927,0,0.0,6.05,14.0,1.4,,,desligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK6a057639;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as1440643b
+To: sip:9201@172.17.192.100;tag=0044cc385f4e4f6381ede883e912d6d3
+Call-ID: 64e61e61f6914b65abbb625f9bf25ebf
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""1758c679"", response=""40764c0f84655606c667d85813575711""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:25:58,9201,LEMIT,1.17,6.21,200,Normal call clearing,True,41984046015,BATCH-20260922-020,9201,9201,sip:9201@172.17.192.100;tag=0f32d1f8f23143eea067a3379637dd24,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.17}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.17}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.11}]",,REMOTE,inferido,5.04,20.45,26.65,GSM,3,34,926,0,0.0,5.74,6.25,1.77,,,desligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK123433ca;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as38e97f84
+To: sip:9201@172.17.192.100;tag=0f32d1f8f23143eea067a3379637dd24
+Call-ID: cd53d81549514897ad040d5533b50016
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""376ff3d1"", response=""5da0d379e865d368a3b10856990b0a71""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:26:31,9201,LEMIT,1.16,6.31,200,Normal call clearing,True,41984046015,BATCH-20260922-020,9201,9201,sip:9201@172.17.192.100;tag=bcadd067565647e1871542029e2d0403,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.16}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.16}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.22}]",,REMOTE,inferido,5.15,20.99,27.29,GSM,3,34,979,0,0.0,5.95,8.0,1.92,,,desligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK5184112a;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as7ae8e7d0
+To: sip:9201@172.17.192.100;tag=bcadd067565647e1871542029e2d0403
+Call-ID: d343038960fb4b8ab34c6f3878a90aac
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""349d7938"", response=""d33ef5a739bb3689ac4012682941775c""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:29:22,9201,LEMIT,1.97,5.85,200,Normal call clearing,True,41984046015,BATCH-20260922-021,9201,9201,sip:9201@172.17.192.100;tag=5f6b65d260274bcd9b73470662978aaf,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.97}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.97}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 6.35}]",,REMOTE,inferido,3.88,20.3,26.15,GSM,3,31,1195,0,0.0,5.85,6.5,1.53,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK7d85b670;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as1f9da846
+To: sip:9201@172.17.192.100;tag=5f6b65d260274bcd9b73470662978aaf
+Call-ID: 1e7f75b9357844febb36962b8336799b
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""4223ae66"", response=""2dc0a328eaa443770817fed8bfe9d421""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:29:49,9201,LEMIT,0.76,8.79,200,Normal call clearing,True,41984046015,BATCH-20260922-022,9201,9201,sip:9201@172.17.192.100;tag=a209d088dfa447858977683b7d3a0807,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.76}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.76}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 9.29}]",,REMOTE,inferido,8.03,10.25,19.03,GSM,3,35,887,0,0.0,5.76,6.38,1.83,41988965059,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK6453a722;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as7065442e
+To: sip:9201@172.17.192.100;tag=a209d088dfa447858977683b7d3a0807
+Call-ID: 175a593084514c60a63e46758a5aca27
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""333fb663"", response=""d1114a5590a680cd5c269e5a4fcddaf9""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:31:07,9201,LEMIT,1.64,8.0,200,Normal call clearing,True,41984046015,BATCH-20260922-023,9201,9201,sip:9201@172.17.192.100;tag=bb13591dfeb049119235315d2fb01983,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.64}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.64}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 8.5}]",,REMOTE,inferido,6.36,9.54,17.54,GSM,3,34,759,0,0.0,5.76,6.25,1.29,41985169039,sim,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK5211d020;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as29658056
+To: sip:9201@172.17.192.100;tag=bb13591dfeb049119235315d2fb01983
+Call-ID: f06f274735454c7785dbf967cdcef60f
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""700408d9"", response=""ed130d2bd0e0c4b973dcf30f7747eaa1""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:34:20,9201,EMBRATEL,1.46,12.01,200,Normal call clearing,True,41984046015,BATCH-20260922-024,9201,9201,sip:9201@172.17.192.100;tag=db118402785845458b54300902e4c369,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.46}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.47}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 12.51}]",,REMOTE,inferido,10.55,20.08,32.09,GSM,3,31,1527,0,0.0,5.83,6.38,1.75,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK371e09eb;rport
+Max-Forwards: 70
+From: sip:170222141984046015@172.17.192.100;tag=as50c23d3f
+To: sip:9201@172.17.192.100;tag=db118402785845458b54300902e4c369
+Call-ID: 20bc505dfdb44a2badad2808f51d2ba0
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""1c79dbcd"", response=""00120e48f516d1a27b3b4a8076978d72""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:35:01,9201,LEMIT,1.8,19.26,200,Normal call clearing,True,41984046015,BATCH-20260922-024,9201,9201,sip:9201@172.17.192.100;tag=2d5b5f19902a4335ae1990e1a2e338e6,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.8}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.8}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 20.28}]",,REMOTE,inferido,17.46,19.95,39.22,GSM,3,34,929,0,0.0,5.84,6.38,1.61,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK497da38c;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as5b407ab7
+To: sip:9201@172.17.192.100;tag=2d5b5f19902a4335ae1990e1a2e338e6
+Call-ID: ec117d111a77452782e6029011621316
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""41c18e2a"", response=""13fec6ec8ec6792c20684e0324338aa9""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:35:15,9201,EMBRATEL,1.37,5.27,200,Normal call clearing,True,41984046015,BATCH-20260922-024,9201,9201,sip:9201@172.17.192.100;tag=e2097002422e4f06a66c266a13d6eead,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.37}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.37}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 6.09}]",,REMOTE,inferido,3.9,3.36,8.63,GSM,3,31,102,0,0.0,4.8,6.12,1.98,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK7a606a46;rport
+Max-Forwards: 70
+From: sip:170222141984046015@172.17.192.100;tag=as61377090
+To: sip:9201@172.17.192.100;tag=e2097002422e4f06a66c266a13d6eead
+Call-ID: f1204767883744c98257fd89a9afa899
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""4152f0ea"", response=""0c78b64403e40db7af21fd0f2adcb08b""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:35:24,9201,LEMIT,1.16,4.62,200,Normal call clearing,True,41984046015,BATCH-20260922-024,9201,9201,sip:9201@172.17.192.100;tag=e90127131c19490a8c0a4b17c1b59629,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.16}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.17}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 5.44}]",,REMOTE,inferido,3.46,2.82,7.44,GSM,3,31,50,0,0.0,3.13,4.75,1.83,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK3ef4b7d7;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as3e22f380
+To: sip:9201@172.17.192.100;tag=e90127131c19490a8c0a4b17c1b59629
+Call-ID: b1b6112f736f4372a5b19c4fba47d80f
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""5b3f1d34"", response=""469ae499094009fe9f636b2637429263""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:35:37,9201,EMBRATEL,1.45,5.13,200,Normal call clearing,True,41984046015,BATCH-20260922-024,9201,9201,sip:9201@172.17.192.100;tag=f26839ff167f46feb8b8ab03ab9e669e,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.45}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.45}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 5.94}]",,REMOTE,inferido,3.68,2.63,7.76,GSM,3,31,51,0,0.0,3.2,5.12,1.62,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK75447964;rport
+Max-Forwards: 70
+From: sip:170222141984046015@172.17.192.100;tag=as409e580f
+To: sip:9201@172.17.192.100;tag=f26839ff167f46feb8b8ab03ab9e669e
+Call-ID: c8a6594ee4454a148b9862507344a476
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""2f8f93fd"", response=""e9303b4bbaedfd82a87e79b0e47a53bb""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:36:18,9201,LEMIT,4.29,19.06,200,Normal call clearing,True,41984046015,BATCH-20260922-024,9201,9201,sip:9201@172.17.192.100;tag=953da7fde3eb4ac19aaac90bfe47e117,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 4.29}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 4.3}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 20.06}]",,REMOTE,inferido,14.76,19.85,38.9,GSM,3,34,924,0,0.0,5.85,6.5,1.47,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK29cb6052;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as2c56f0e1
+To: sip:9201@172.17.192.100;tag=953da7fde3eb4ac19aaac90bfe47e117
+Call-ID: c7578ed3f0b14caaac0a271acda04c1b
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""6ff22805"", response=""fc748193979f43e8a106eb7b0a59d8c4""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:36:39,9201,EMBRATEL,1.35,6.99,200,Normal call clearing,True,41984046015,BATCH-20260922-024,9201,9201,sip:9201@172.17.192.100;tag=3e815c461f864eecb00cd7f7bb12d650,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.35}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.36}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.82}]",,REMOTE,inferido,5.64,9.0,15.99,GSM,3,32,357,0,0.0,5.64,6.5,1.22,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK14298237;rport
+Max-Forwards: 70
+From: sip:170222141984046015@172.17.192.100;tag=as0679d186
+To: sip:9201@172.17.192.100;tag=3e815c461f864eecb00cd7f7bb12d650
+Call-ID: 60485e778e194f0dba67de9d71f8813b
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""30bea8ba"", response=""6d74816c9ac1ddefcb701db2e99522de""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:36:52,9201,LEMIT,1.08,4.91,200,Normal call clearing,True,41984046015,BATCH-20260922-024,9201,9201,sip:9201@172.17.192.100;tag=958ac965862c43ce95455c09e069dd53,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.08}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.08}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 5.74}]",,REMOTE,inferido,3.83,5.74,10.65,GSM,3,31,207,0,0.0,5.55,6.38,1.75,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK7e66f02b;rport
+Max-Forwards: 70
+From: sip:225123441984046015@172.17.192.100;tag=as238da7ec
+To: sip:9201@172.17.192.100;tag=958ac965862c43ce95455c09e069dd53
+Call-ID: c886d6e758364442a2f5f84a0e851850
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""42e25c8c"", response=""8e4ac3c3cc2fbea7a96d04257c3ed4fe""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:40:41,9201,OTIMA,2.59,4.68,200,Normal call clearing,True,14991198052,BATCH-20260922-025,9201,9201,sip:9201@172.17.192.100;tag=f613655a53674eeaa5976ff451c0db84,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 2.59}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 2.59}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 5.19}]",,REMOTE,inferido,2.09,157.59,162.27,GSM,3,63,7912,0,0.0,0.77,3.62,1.77,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK2bb10f3e;rport
+Max-Forwards: 70
+From: sip:170222314991198052@172.17.192.100;tag=as2cbc9b81
+To: sip:9201@172.17.192.100;tag=f613655a53674eeaa5976ff451c0db84
+Call-ID: ea11d436d5d7498e90d774bc712e68d5
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""4c1621b9"", response=""d0b281c62cf4ff7fa08ebd5997f53b51""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:42:18,9201,PRIMACOM,1.07,14.31,200,Normal call clearing,True,14991198052,BATCH-20260922-025,9201,9201,sip:9201@172.17.192.100;tag=487517855cb447509f49eb871f573241,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.07}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.07}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 15.33}]",,REMOTE,inferido,13.23,80.96,95.27,GSM,3,46,3952,0,0.0,3.97,4.62,1.73,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK562f86c1;rport
+Max-Forwards: 70
+From: sip:170222414991198052@172.17.192.100;tag=as164e2278
+To: sip:9201@172.17.192.100;tag=487517855cb447509f49eb871f573241
+Call-ID: a5bc1eaef2794c71bce09b8583e813cd
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""39550bfb"", response=""472d2f0c087d944f2b46c6b5dc36a7c5""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:42:53,9201,OKTOR,0.08,14.24,200,Normal call clearing,True,14991198052,BATCH-20260922-025,9201,9201,sip:9201@172.17.192.100;tag=8863673acc764eb4a06c6cabf67c07a9,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.08}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.08}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 15.26}]",,REMOTE,inferido,14.16,19.25,33.49,GSM,3,34,880,0,0.0,0.26,2.38,1.37,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK57cc5262;rport
+Max-Forwards: 70
+From: sip:170222514991198052@172.17.192.100;tag=as7d58a9ac
+To: sip:9201@172.17.192.100;tag=8863673acc764eb4a06c6cabf67c07a9
+Call-ID: fdda935982bc44caba0b9612364ece40
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""601fc4e3"", response=""bcdab7ba1393d496cbed5e9fd045189e""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:43:53,9201,AGIL,0.13,39.45,200,Normal call clearing,True,14991198052,BATCH-20260922-025,9201,9201,sip:9201@172.17.192.100;tag=cc58fb1a71084ab58c6f07c917898372,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.13}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.13}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 40.48}]",,REMOTE,inferido,39.32,18.09,57.54,GSM,3,34,825,0,0.0,0.17,0.25,1.86,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK23609384;rport
+Max-Forwards: 70
+From: sip:170222614991198052@172.17.192.100;tag=as278ad899
+To: sip:9201@172.17.192.100;tag=cc58fb1a71084ab58c6f07c917898372
+Call-ID: cc42f0c7888941a280ca5e3b3c10eb16
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""65cf6e12"", response=""4274a77e1e199aeda3300f99ca2c4bf0""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:44:20,9201,EMBRATEL,1.7,5.05,200,Normal call clearing,True,14991198052,BATCH-20260922-025,9201,9201,sip:9201@172.17.192.100;tag=e71cd51b7fd54adbaf5377bcfeb4d84e,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 1.7}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 1.7}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 5.87}]",,REMOTE,inferido,3.36,19.65,24.7,GSM,3,34,922,0,0.0,6.0,6.62,1.95,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK467bb5d7;rport
+Max-Forwards: 70
+From: sip:170222114991198052@172.17.192.100;tag=as7195a285
+To: sip:9201@172.17.192.100;tag=e71cd51b7fd54adbaf5377bcfeb4d84e
+Call-ID: 0263b906f684460facfe0723432598a0
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""26db37c3"", response=""545913f53fe884dc9e5d484a0ed5f200""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:44:47,9201,LEMIT,3.04,6.35,200,Normal call clearing,True,14991198052,BATCH-20260922-025,9201,9201,sip:9201@172.17.192.100;tag=8a72e712f5ab4c4794a34d86a5a52eea,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 3.04}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 3.04}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 7.17}]",,REMOTE,inferido,3.32,18.99,25.34,GSM,3,34,873,0,0.0,5.84,6.38,1.66,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK0759c473;rport
+Max-Forwards: 70
+From: sip:225123414991198052@172.17.192.100;tag=as47cec07c
+To: sip:9201@172.17.192.100;tag=8a72e712f5ab4c4794a34d86a5a52eea
+Call-ID: 424ea4fec34f49838f61a6b2d2efcc2b
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""43bff0ce"", response=""28415fd21335b751914dedcbbc2e93fd""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:48:42,9201,OKTOR,,,403,Forbidden,False,41984046015,BATCH-20260922-026,9201,9201,sip:9201@172.17.192.100;tag=36e33f24d9084b1fb9b52e02c2219498,,,[],,NETWORK,inferido,,,0.03,,,,,,,,,,,,ligado,"SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.186.24:5060;branch=z9hG4bKPj624c2d1919bd476db159949a90dc09e3;received=192.168.186.24;rport=5060
+From: sip:9201@172.17.192.100;tag=36e33f24d9084b1fb9b52e02c2219498
+To: sip:170222541984046015@172.17.192.100
+Call-ID: 0ab8bab3620243f482dcc564dcfd1bb8
+CSeq: 18027 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222541984046015@172.17.192.100:5060>
+Content-Length: 0
+
+"
+2026-09-22 17:49:20,9201,OKTOR,,,403,Forbidden,False,41984046015,BATCH-20260922-027,9201,9201,sip:9201@172.17.192.100;tag=45961af4bc2f493e9332c7884b20b115,,,[],,NETWORK,inferido,,,0.03,,,,,,,,,,,,ligado,"SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.186.24:5060;branch=z9hG4bKPj5da7d144631742a29681f190129a6e07;received=192.168.186.24;rport=5060
+From: sip:9201@172.17.192.100;tag=45961af4bc2f493e9332c7884b20b115
+To: sip:170222541984046015@172.17.192.100
+Call-ID: 65241aa5a6ca48748adc6b83ccc49c82
+CSeq: 28470 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222541984046015@172.17.192.100:5060>
+Content-Length: 0
+
+"
+2026-09-22 17:49:53,9201,OKTOR,,,403,Forbidden,False,41984046015,BATCH-20260922-028,9201,9201,sip:9201@172.17.192.100;tag=048c90a1fa7d4ec49c3909648dce1247,,,[],,NETWORK,inferido,,,0.03,,,,,,,,,,,,ligado,"SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.186.24:5060;branch=z9hG4bKPj57340300142a4a3cb327e44b6f1a8534;received=192.168.186.24;rport=5060
+From: sip:9201@172.17.192.100;tag=048c90a1fa7d4ec49c3909648dce1247
+To: sip:170222541984046015@172.17.192.100
+Call-ID: 4dc44cb40c9c40d69b9521631a56bde9
+CSeq: 961 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222541984046015@172.17.192.100:5060>
+Content-Length: 0
+
+"
+2026-09-22 17:49:55,9201,AGIL,,,403,Forbidden,False,41984046015,BATCH-20260922-028,9201,9201,sip:9201@172.17.192.100;tag=76989f0cc3d549ea8f5a0642b4d6e02f,,,[],,NETWORK,inferido,,,0.06,,,,,,,,,,,,ligado,"SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.186.24:5060;branch=z9hG4bKPjdf7b768484da4cfca28fa08b4fba67ba;received=192.168.186.24;rport=5060
+From: sip:9201@172.17.192.100;tag=76989f0cc3d549ea8f5a0642b4d6e02f
+To: sip:170222641984046015@172.17.192.100
+Call-ID: 10e60b78198c4d228cbf3a8816a682ee
+CSeq: 19269 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222641984046015@172.17.192.100:5060>
+Content-Length: 0
+
+"
+2026-09-22 17:51:18,9201,OKTOR,0.02,37.84,200,Normal call clearing,True,14991198052,BATCH-20260922-029,9201,9201,sip:9201@172.17.192.100;tag=2adf9757cfe04b20a76daa2ac5f4dae6,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.02}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.02}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 38.34}]",,REMOTE,inferido,37.82,18.85,56.69,GSM,3,43,2582,0,0.0,0.41,24.75,1.76,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK1b946c54;rport
+Max-Forwards: 70
+From: sip:170222514991198052@172.17.192.100;tag=as0f759e2c
+To: sip:9201@172.17.192.100;tag=2adf9757cfe04b20a76daa2ac5f4dae6
+Call-ID: 5da503eb8d1e4cb698c4e6aee4b5eafd
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""2d10e605"", response=""fe5d232eb30835523faaa8d4e42a99f5""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 17:52:17,9201,AGIL,0.13,38.5,200,Normal call clearing,True,14991198052,BATCH-20260922-029,9201,9201,sip:9201@172.17.192.100;tag=f03c0f3b6abc4a5fbf16e62da66d956d,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.13}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.13}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 39.33}]",,REMOTE,inferido,38.38,18.54,57.04,GSM,3,34,868,0,0.0,0.25,1.88,1.62,,,ligado,"BYE sip:9201@192.168.186.24:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK423d6542;rport
+Max-Forwards: 70
+From: sip:170222614991198052@172.17.192.100;tag=as71af69be
+To: sip:9201@172.17.192.100;tag=f03c0f3b6abc4a5fbf16e62da66d956d
+Call-ID: 3631fbe595434a4db758c32370bd548a
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""0d9ec0f3"", response=""67510e715ce66c7f13df8422c1f9f16f""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"
+2026-09-22 18:10:32,9201,OKTOR,,,403,Forbidden,False,41984046015,BATCH-20260922-030,9201,9201,sip:9201@172.17.192.100;tag=4fa363ee8e72408ea8c5410cb4ebf862,,,[],,NETWORK,inferido,,,0.06,,,,,,,,,,,,ligado,"SIP/2.0 100 Trying
+Via: SIP/2.0/UDP 192.168.186.24:5060;branch=z9hG4bKPjb949f4f3f17f4b3392b2e2640be40b22;received=192.168.186.24;rport=5060
+From: sip:9201@172.17.192.100;tag=4fa363ee8e72408ea8c5410cb4ebf862
+To: sip:170222541984046015@172.17.192.100
+Call-ID: 2203206b242e4688b0000fd047f87814
+CSeq: 4095 INVITE
+Server: Asterisk CEBP
+Allow: INVITE, ACK, CANCEL, OPTIONS, BYE, REFER, SUBSCRIBE, NOTIFY, INFO, PUBLISH, MESSAGE
+Supported: replaces, timer
+Session-Expires: 1800;refresher=uas
+Contact: <sip:170222541984046015@172.17.192.100:5060>
+Content-Length: 0
+
+"
+2026-09-23 12:04:39,9201,OKTOR,0.02,12.83,200,Normal call clearing,True,41984046015,BATCH-20260923-001,9201,9201,sip:9201@172.17.192.100;tag=93a50747a8e34aa08aecddf8f924b76a,,,"[{""codigo"": 180, ""motivo"": ""Ringing"", ""t_desde_invite_s"": 0.02}, {""codigo"": 183, ""motivo"": ""Session Progress"", ""t_desde_invite_s"": 0.04}, {""codigo"": 200, ""motivo"": ""OK"", ""t_desde_invite_s"": 13.34}]",,REMOTE,inferido,12.81,3.55,16.38,GSM,3,34,389,0,0.0,60180.82,528571.0,4.89,41988493270,sim,ligado,"BYE sip:9201@192.168.186.42:5060;ob SIP/2.0
+Via: SIP/2.0/UDP 172.17.192.100:5060;branch=z9hG4bK66dee223;rport
+Max-Forwards: 70
+From: sip:170222541984046015@172.17.192.100;tag=as77dd5e9b
+To: sip:9201@172.17.192.100;tag=93a50747a8e34aa08aecddf8f924b76a
+Call-ID: ef0b405717074b8aa5e65cdf5121fb5c
+CSeq: 102 BYE
+User-Agent: Asterisk CEBP
+Proxy-Authorization: Digest username=""9201"", realm=""asterisk"", algorithm=MD5, uri=""sip:172.17.192.100"", nonce=""617fcb17"", response=""3ad334088d0f46c4fcf88b3bde917098""
+X-Asterisk-HangupCause: Normal Clearing
+X-Asterisk-HangupCauseCode: 16
+Content-Length: 0
+
+"

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Testador de Troncos SIP</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="layout">
+
+<nav class="sidebar">
+    <div class="marca">SIP Tester</div>
+    <button type="button" class="nav-item ativo" data-view="painel">Painel</button>
+    <button type="button" class="nav-item" data-view="gravacoes">Gravações</button>
+    <button type="button" class="nav-item" data-view="historico">Histórico</button>
+    <button type="button" class="nav-item" data-view="dashboard">Dashboard</button>
+    <button type="button" class="nav-item" data-view="sobre">Sobre</button>
+</nav>
+
+<div class="conteudo">
+
+<header class="topo">
+    <h1>Testador de Troncos SIP</h1>
+    <span class="subtitulo">PJSUA2 + Asterisk/3CX — controle local</span>
+</header>
+
+<main id="view-painel" class="grade">
+
+    <section class="cartao">
+        <h2>Configuração</h2>
+        <form id="form-config" class="formulario">
+            <div class="campo">
+                <label for="ramal">Ramal SIP</label>
+                <input type="text" id="ramal" required>
+            </div>
+            <div class="campo">
+                <label for="auth_id">Auth ID</label>
+                <input type="text" id="auth_id" required>
+            </div>
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" placeholder="deixe em branco para manter a atual">
+                <small id="senha-status" class="dica"></small>
+            </div>
+            <div class="campo">
+                <label for="sip_domain">IP do PABX</label>
+                <input type="text" id="sip_domain" required>
+            </div>
+            <div class="campo">
+                <label for="porta_sip">Porta SIP</label>
+                <input type="number" id="porta_sip" required>
+            </div>
+            <button type="submit" class="botao botao-secundario">Salvar configuração</button>
+            <span id="config-msg" class="mensagem"></span>
+        </form>
+    </section>
+
+    <section class="cartao">
+        <h2>Operadoras</h2>
+        <div id="lista-operadoras" class="lista-checkbox"></div>
+    </section>
+
+    <section class="cartao">
+        <h2>Números de destino</h2>
+        <div class="linha-adicionar">
+            <input type="text" id="novo-destino" placeholder="Ex: 41988404022">
+            <button type="button" id="btn-add-destino" class="botao botao-secundario">Adicionar</button>
+        </div>
+        <ul id="lista-destinos" class="lista-tags"></ul>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Execução</h2>
+        <div class="campo campo-cenario">
+            <label>Cenário do teste</label>
+            <div class="opcoes-cenario">
+                <label><input type="radio" name="cenario" value="ligado" checked> Celular ligado</label>
+                <label><input type="radio" name="cenario" value="desligado"> Celular desligado</label>
+            </div>
+        </div>
+        <div class="controles">
+            <button type="button" id="btn-iniciar" class="botao botao-primario">Iniciar testes</button>
+            <button type="button" id="btn-parar" class="botao botao-perigo" disabled>Parar</button>
+            <span id="status-badge" class="badge badge-parado">Parado</span>
+        </div>
+        <div id="status-progresso" class="status-progresso"></div>
+        <div id="erro-execucao" class="mensagem mensagem-erro"></div>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Resultados</h2>
+        <div class="tabela-wrapper">
+            <table id="tabela-resultados">
+                <thead>
+                    <tr>
+                        <th>Horário</th>
+                        <th>Ramal</th>
+                        <th>Tronco</th>
+                        <th>PDD (s)</th>
+                        <th>Setup (s)</th>
+                        <th>SIP</th>
+                        <th>Motivo</th>
+                        <th>Atendida</th>
+                        <th>Número</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<main id="view-gravacoes" class="grade" style="display:none;">
+
+    <section class="cartao cartao-larga">
+        <h2>Gravações por dia</h2>
+        <div class="linha-adicionar">
+            <select id="select-dia-gravacoes"></select>
+            <button type="button" id="btn-ver-gravacoes" class="botao botao-secundario">Ver dia</button>
+        </div>
+        <ul id="lista-gravacoes-dia" class="lista-audios"></ul>
+    </section>
+
+</main>
+
+<main id="view-historico" class="grade" style="display:none;">
+
+    <section class="cartao cartao-larga">
+        <h2>Histórico (todos os dias)</h2>
+        <div class="linha-adicionar">
+            <select id="select-dia"></select>
+            <button type="button" id="btn-abrir-dia" class="botao botao-secundario">Ver dia</button>
+            <a id="link-baixar-csv" class="botao botao-secundario" download style="display:none; text-decoration:none;">Baixar CSV do dia</a>
+        </div>
+        <div class="linha-filtros">
+            <select id="filtro-operadora">
+                <option value="">Todas as operadoras</option>
+            </select>
+            <input type="text" id="filtro-destino" placeholder="Filtrar por número">
+            <select id="filtro-atendida">
+                <option value="">Atendida: todas</option>
+                <option value="sim">Atendida: sim</option>
+                <option value="nao">Atendida: não</option>
+            </select>
+            <select id="filtro-cenario">
+                <option value="">Cenário: todos</option>
+                <option value="ligado">Celular ligado</option>
+                <option value="desligado">Celular desligado</option>
+            </select>
+        </div>
+        <div class="tabela-wrapper">
+            <table id="tabela-historico">
+                <thead>
+                    <tr>
+                        <th>Horário</th>
+                        <th>Ramal</th>
+                        <th>Tronco</th>
+                        <th>PDD (s)</th>
+                        <th>Setup (s)</th>
+                        <th>SIP</th>
+                        <th>Motivo</th>
+                        <th>Atendida</th>
+                        <th>Número</th>
+                        <th>BINA</th>
+                        <th>SPAM</th>
+                        <th>Áudio</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<main id="view-dashboard" class="grade" style="display:none;">
+
+    <section class="cartao cartao-larga">
+        <h2>Cenário</h2>
+        <p class="dica">Aplica-se a todo o Dashboard nesta tela — cartões, comparações e evolução.</p>
+        <select id="select-cenario-dashboard">
+            <option value="">Todos os cenários</option>
+            <option value="ligado">Celular ligado</option>
+            <option value="desligado">Celular desligado</option>
+        </select>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Qualidade dos troncos</h2>
+        <div class="linha-adicionar">
+            <select id="select-dia-dashboard"></select>
+            <button type="button" id="btn-atualizar-dashboard" class="botao botao-secundario">Atualizar</button>
+        </div>
+        <div id="cartoes-dashboard" class="grade-dashboard"></div>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Comparação entre operadoras</h2>
+        <div class="grade-graficos">
+            <div>
+                <h3 class="titulo-grafico">ASR (%)</h3>
+                <div id="grafico-asr"></div>
+            </div>
+            <div>
+                <h3 class="titulo-grafico">PDD médio (s)</h3>
+                <div id="grafico-pdd"></div>
+            </div>
+            <div>
+                <h3 class="titulo-grafico">Setup médio (s)</h3>
+                <div id="grafico-setup"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Evolução ao longo do tempo</h2>
+        <div class="linha-adicionar">
+            <select id="select-operadora-evolucao"></select>
+            <select id="select-agrupamento-evolucao">
+                <option value="dia">Por dia</option>
+                <option value="ligacao">Por ligação</option>
+            </select>
+            <select id="select-metrica-evolucao"></select>
+        </div>
+        <div id="grafico-evolucao"></div>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Comparar operadoras ao longo do tempo</h2>
+        <div class="linha-adicionar">
+            <select id="select-agrupamento-comparacao">
+                <option value="dia">Por dia</option>
+                <option value="ligacao">Por ligação</option>
+            </select>
+            <select id="select-metrica-comparacao"></select>
+        </div>
+        <div id="legenda-comparacao-tempo" class="legenda-grafico"></div>
+        <div id="grafico-comparacao-tempo"></div>
+    </section>
+
+</main>
+
+<main id="view-sobre" class="grade" style="display:none;">
+
+    <section class="cartao cartao-larga">
+        <h2>Atendida / Não atendida</h2>
+        <dl class="glossario">
+            <dt>Atendida</dt>
+            <dd>A chamada chegou a ser respondida do outro lado (estado CONFIRMED / resposta SIP 200 OK ao INVITE). É a partir daí que a gravação começa e o "Talk duration" passa a existir.</dd>
+            <dt>Não atendida</dt>
+            <dd>A chamada terminou antes de ser respondida — rejeitada pela operadora/PABX, ocupado, sem resposta, ou cancelada por nós antes de completar.</dd>
+        </dl>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>ASR — Answer-Seizure Ratio</h2>
+        <p>Percentual de chamadas atendidas sobre o total de tentativas feitas naquele grupo (operadora, dia, etc.).</p>
+        <p class="dica">ASR = (chamadas atendidas ÷ total de tentativas) × 100</p>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>ACD — Average Call Duration</h2>
+        <p>Duração média de conversa das chamadas <strong>atendidas</strong> — do momento em que foi respondida até o desligamento. Chamadas não atendidas não entram nessa média (não têm duração de conversa).</p>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>PDD — Post Dial Delay</h2>
+        <p>Tempo entre o início da discagem (INVITE) e o primeiro sinal de progresso da chamada vindo da rede — normalmente 100 Trying, 180 Ringing ou 183 Session Progress. Mede quão rápido a operadora "reage" ao pedido de chamada, antes mesmo de alguém atender.</p>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Setup Time</h2>
+        <p>Tempo entre o início da discagem (INVITE) e a chamada ser efetivamente <strong>atendida</strong> (200 OK). Inclui o PDD mais o tempo de toque até alguém atender.</p>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Média / Mediana / P95</h2>
+        <dl class="glossario">
+            <dt>Média</dt>
+            <dd>Soma de todos os valores dividida pela quantidade — pode ser puxada pra cima por alguns casos bem fora do normal.</dd>
+            <dt>Mediana</dt>
+            <dd>O valor do meio quando todos são ordenados — representa melhor o "caso típico", sem sofrer tanta influência de valores extremos.</dd>
+            <dt>P95 (percentil 95)</dt>
+            <dd>O valor abaixo do qual ficam 95% dos casos — ou seja, só 1 em cada 20 testes foi pior que isso. Ajuda a enxergar o "pior caso comum", sem contar os poucos casos mais extremos.</dd>
+        </dl>
+    </section>
+
+    <section class="cartao cartao-larga">
+        <h2>Códigos SIP mais comuns</h2>
+        <dl class="glossario">
+            <dt>100 Trying</dt>
+            <dd>A rede recebeu o pedido de chamada e está processando.</dd>
+            <dt>180 Ringing</dt>
+            <dd>O destino está tocando.</dd>
+            <dt>183 Session Progress</dt>
+            <dd>Progresso da chamada com áudio antecipado (ex.: locução, tom de chamada da própria operadora).</dd>
+            <dt>200 OK</dt>
+            <dd>Chamada atendida com sucesso (ou desligamento normal, dependendo do contexto).</dd>
+            <dt>403 Forbidden</dt>
+            <dd>A rede recusou a chamada — geralmente permissão/rota não autorizada, ou bloqueio anti-fraude por excesso de tentativas.</dd>
+            <dt>404 Not Found</dt>
+            <dd>Número de destino não encontrado/não existe pra essa rota.</dd>
+            <dt>408 Request Timeout</dt>
+            <dd>Não houve resposta a tempo — a rede ou o destino não reagiu dentro do prazo esperado.</dd>
+            <dt>480 Temporarily Unavailable</dt>
+            <dd>Destino temporariamente indisponível (desligado, sem cobertura, fora da área).</dd>
+            <dt>486 Busy Here</dt>
+            <dd>Linha de destino ocupada.</dd>
+            <dt>487 Request Terminated</dt>
+            <dd>A chamada foi cancelada antes de ser atendida — normalmente porque nós mesmos desligamos enquanto ainda tocava (ex.: botão "Parar").</dd>
+            <dt>503 Service Unavailable</dt>
+            <dd>O tronco/rota da operadora está indisponível no momento.</dd>
+            <dt>5xx / 6xx (genéricos)</dt>
+            <dd>Erros do servidor/rede (5xx) ou recusa definitiva do destino (6xx) — o texto do motivo (SIP Reason) geralmente detalha a causa exata.</dd>
+        </dl>
+    </section>
+
+</main>
+
+<div id="modal-detalhes" class="modal-overlay" style="display:none;">
+    <div class="modal-caixa">
+        <div class="modal-cabecalho">
+            <h2>Detalhes da chamada</h2>
+            <button type="button" id="btn-fechar-modal" class="botao-fechar">&times;</button>
+        </div>
+        <div class="modal-corpo">
+            <section class="modal-secao">
+                <h3>Identificação</h3>
+                <div id="detalhes-identificacao" class="modal-grade-campos"></div>
+            </section>
+            <section class="modal-secao">
+                <h3>Anotações manuais</h3>
+                <p class="dica">O sistema não consegue capturar isso sozinho — preencha depois de encerrar a chamada.</p>
+                <div class="modal-grade-campos">
+                    <div class="campo-detalhe">
+                        <span class="rotulo">BINA informado (número que binou de fato)</span>
+                        <input type="text" id="input-bina-manual" placeholder="Ex: 41988887777">
+                    </div>
+                    <div class="campo-detalhe">
+                        <span class="rotulo">SPAM?</span>
+                        <select id="select-spam-manual">
+                            <option value="">Não informado</option>
+                            <option value="sim">Sim</option>
+                            <option value="nao">Não</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="linha-anotacoes">
+                    <button type="button" id="btn-salvar-anotacoes" class="botao botao-secundario">Salvar anotações</button>
+                    <span id="msg-anotacoes" class="mensagem"></span>
+                </div>
+            </section>
+            <section class="modal-secao">
+                <h3>Tempos</h3>
+                <div id="detalhes-tempos" class="modal-grade-campos"></div>
+            </section>
+            <section class="modal-secao">
+                <h3>Sinalização</h3>
+                <div id="detalhes-sinalizacao" class="modal-grade-campos"></div>
+                <ul id="detalhes-eventos-sip" class="modal-timeline"></ul>
+                <p class="dica" style="margin-top:10px;">Última mensagem SIP recebida da rede (texto bruto, sem interpretação):</p>
+                <pre id="detalhes-sip-bruto" class="sip-bruto"></pre>
+            </section>
+            <section class="modal-secao">
+                <h3>Mídia</h3>
+                <div id="detalhes-midia" class="modal-grade-campos"></div>
+            </section>
+            <section class="modal-secao">
+                <h3>Gravação</h3>
+                <div id="detalhes-gravacao"></div>
+            </section>
+        </div>
+    </div>
+</div>
+
+</div>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
