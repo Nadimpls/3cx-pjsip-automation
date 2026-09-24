@@ -11,6 +11,8 @@ const CORES_OPERADORAS = ["#3b82f6", "#22c55e", "#eab308", "#ef4444", "#a855f7",
 
 let destinos = [];
 let operadorasHabilitadas = [];
+let techPorOperadora = {};
+let techsDisponiveis = [];
 let testeRodando = false;
 
 async function apiGet(caminho) {
@@ -58,6 +60,9 @@ function renderOperadoras(disponiveis) {
     const container = document.getElementById("lista-operadoras");
     container.innerHTML = "";
     disponiveis.forEach((op) => {
+        const linha = document.createElement("div");
+        linha.className = "linha-operadora";
+
         const label = document.createElement("label");
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -65,7 +70,21 @@ function renderOperadoras(disponiveis) {
         checkbox.checked = operadorasHabilitadas.includes(op);
         label.appendChild(checkbox);
         label.appendChild(document.createTextNode(OPERADORAS_LABELS[op] || op));
-        container.appendChild(label);
+        linha.appendChild(label);
+
+        const select = document.createElement("select");
+        select.className = "select-tech-operadora";
+        select.dataset.operadora = op;
+        techsDisponiveis.forEach((tech) => {
+            const opt = document.createElement("option");
+            opt.value = tech;
+            opt.textContent = `Rota ${tech}`;
+            select.appendChild(opt);
+        });
+        select.value = techPorOperadora[op] || techsDisponiveis[0] || "170";
+        linha.appendChild(select);
+
+        container.appendChild(linha);
     });
 }
 
@@ -74,10 +93,19 @@ function operadorasMarcadas() {
         .map((el) => el.value);
 }
 
+function techPorOperadoraSelecionado() {
+    const resultado = {};
+    document.querySelectorAll("#lista-operadoras .select-tech-operadora").forEach((select) => {
+        resultado[select.dataset.operadora] = select.value;
+    });
+    return resultado;
+}
+
 async function carregarConfig() {
-    const [config, disponiveis] = await Promise.all([
+    const [config, disponiveis, techs] = await Promise.all([
         apiGet("/api/config"),
         apiGet("/api/operadoras"),
+        apiGet("/api/techs"),
     ]);
 
     document.getElementById("ramal").value = config.ramal || "";
@@ -91,6 +119,8 @@ async function carregarConfig() {
 
     destinos = config.destinos || [];
     operadorasHabilitadas = config.operadoras_habilitadas || [];
+    techPorOperadora = config.tech_por_operadora || {};
+    techsDisponiveis = techs || [];
 
     renderOperadoras(disponiveis);
     renderDestinos();
@@ -108,6 +138,7 @@ async function salvarConfig(evento) {
         porta_sip: parseInt(document.getElementById("porta_sip").value, 10),
         operadoras_habilitadas: operadorasMarcadas(),
         destinos: destinos,
+        tech_por_operadora: techPorOperadoraSelecionado(),
     };
 
     const senha = document.getElementById("senha").value;
@@ -122,6 +153,7 @@ async function salvarConfig(evento) {
             : "Nenhuma senha definida ainda.";
         operadorasHabilitadas = dados.operadoras_habilitadas || [];
         destinos = dados.destinos || [];
+        techPorOperadora = dados.tech_por_operadora || {};
         renderDestinos();
     } else {
         msg.textContent = dados.erro || "Erro ao salvar configuração.";
@@ -744,6 +776,11 @@ async function carregarComparacaoTempo() {
 
 function linhaHistoricoParaTr(linha) {
     const tr = linhaParaTr(linha);
+
+    const tdRota = document.createElement("td");
+    tdRota.textContent = linha.rota || "—";
+    if (!linha.rota) tdRota.style.color = "var(--texto-fraco)";
+    tr.insertBefore(tdRota, tr.children[3]);
 
     const tdBina = document.createElement("td");
     tdBina.textContent = linha.bina_manual || "—";

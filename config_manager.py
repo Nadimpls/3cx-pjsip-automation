@@ -8,6 +8,9 @@ KEY_PATH = os.path.join(BASE_DIR, "secret.key")
 
 OPERADORAS_DISPONIVEIS = ["OTIMA", "PRIMACOM", "OKTOR", "AGIL", "EMBRATEL", "LEMIT"]
 
+TECHS_DISPONIVEIS = ["170", "225"]
+TECH_PADRAO = "170"
+
 CONFIG_PADRAO = {
     "sip_domain": "172.17.192.100",
     "porta_sip": 5060,
@@ -16,6 +19,7 @@ CONFIG_PADRAO = {
     "senha_cifrada": None,
     "operadoras_habilitadas": list(OPERADORAS_DISPONIVEIS),
     "destinos": ["41988404022"],
+    "tech_por_operadora": {},  # operadora -> tech ("170"/"225"); ausente = usa TECH_PADRAO
 }
 
 _SENHA_PADRAO = "9201"  # semente usada só na primeira criação do config.json
@@ -79,6 +83,13 @@ def salvar_config(dados_novos):
 
     if "destinos" in dados_novos:
         config["destinos"] = [d.strip() for d in dados_novos["destinos"] if d.strip()]
+
+    if "tech_por_operadora" in dados_novos:
+        config["tech_por_operadora"] = {
+            op: tech
+            for op, tech in dados_novos["tech_por_operadora"].items()
+            if op in OPERADORAS_DISPONIVEIS and tech in TECHS_DISPONIVEIS
+        }
 
     if senha_texto_puro:
         config["senha_cifrada"] = _cifrar_senha(senha_texto_puro)

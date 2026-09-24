@@ -6,8 +6,8 @@ import threading
 
 from flask import Flask, jsonify, request, render_template, send_from_directory, Response
 
-from config_manager import carregar_config, salvar_config, obter_senha, config_publica, OPERADORAS_DISPONIVEIS
-from registro import PainelWeb, CAMPOS_CSV, CENARIOS_VALIDOS, dias_disponiveis, resultados_do_dia, resultados_do_dia_com_audio, audios_do_dia, estatisticas_por_operadora, estatisticas_por_dia, chamadas_por_operadora, chamadas_todas_operadoras, evolucao_todas_operadoras, atualizar_campos_chamada
+from config_manager import carregar_config, salvar_config, obter_senha, config_publica, OPERADORAS_DISPONIVEIS, TECHS_DISPONIVEIS
+from registro import PainelWeb, CENARIOS_VALIDOS, dias_disponiveis, resultados_do_dia_com_audio, audios_do_dia, estatisticas_por_operadora, estatisticas_por_dia, chamadas_por_operadora, chamadas_todas_operadoras, evolucao_todas_operadoras, atualizar_campos_chamada
 from pjsip_worker import processo_pjsip
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -49,6 +49,7 @@ def _montar_config_execucao(cenario="ligado"):
         "senha": obter_senha(config_disco),
         "operadoras": config_disco["operadoras_habilitadas"],
         "destinos": config_disco["destinos"],
+        "tech_por_operadora": config_disco.get("tech_por_operadora", {}),
         "cenario": cenario,
     }
 
@@ -141,6 +142,11 @@ def api_post_config():
 @app.route("/api/operadoras", methods=["GET"])
 def api_operadoras():
     return jsonify(OPERADORAS_DISPONIVEIS)
+
+
+@app.route("/api/techs", methods=["GET"])
+def api_techs():
+    return jsonify(TECHS_DISPONIVEIS)
 
 
 @app.route("/api/test/start", methods=["POST"])
@@ -273,17 +279,44 @@ def api_historico_atualizar():
     return jsonify({"ok": True})
 
 
+COLUNAS_CSV_HISTORICO = [
+    ("timestamp", "Horário"),
+    ("ramal", "Ramal"),
+    ("tronco", "Tronco"),
+    ("rota", "Rota"),
+    ("pdd_s", "PDD (s)"),
+    ("setup_time_s", "Setup (s)"),
+    ("sip_code", "SIP"),
+    ("sip_reason", "Motivo"),
+    ("atendida", "Atendida"),
+    ("Número", "Número"),
+    ("bina_manual", "BINA"),
+    ("spam", "SPAM"),
+    ("arquivo_audio", "Áudio"),
+]
+
+
 @app.route("/api/historico/<data>/csv", methods=["GET"])
 def api_historico_dia_csv(data):
-    linhas = resultados_do_dia(data)
+    linhas = resultados_do_dia_com_audio(data, AUDIOS_DIR)
 
     buffer = io.StringIO()
-    writer = csv.DictWriter(buffer, fieldnames=CAMPOS_CSV)
-    writer.writeheader()
-    writer.writerows(linhas)
+    writer = csv.writer(buffer)
+    writer.writerow([cabecalho for _, cabecalho in COLUNAS_CSV_HISTORICO])
+
+    for linha in linhas:
+        valores = []
+        for campo, _ in COLUNAS_CSV_HISTORICO:
+            valor = linha.get(campo, "")
+            if campo == "atendida":
+                valor = "Sim" if str(valor).lower() == "true" else "Não"
+            elif campo == "spam":
+                valor = {"sim": "Sim", "nao": "Não"}.get(valor, "")
+            valores.append(valor)
+        writer.writerow(valores)
 
     return Response(
-        buffer.getvalue(),
+        "﻿" + buffer.getvalue(),
         mimetype="text/csv",
         headers={"Content-Disposition": f"attachment; filename=testes_{data}.csv"},
     )

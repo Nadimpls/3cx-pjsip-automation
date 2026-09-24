@@ -216,6 +216,22 @@ input:focus {
     cursor: pointer;
 }
 
+.linha-operadora {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.select-tech-operadora {
+    background: var(--bg-cartao);
+    color: var(--texto);
+    border: 1px solid var(--borda);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 13px;
+}
+
 .linha-adicionar {
     display: flex;
     gap: 8px;

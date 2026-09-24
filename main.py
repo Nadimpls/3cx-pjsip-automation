@@ -7,11 +7,9 @@ import pjsua2 as pj
 from gravador import iniciar_gravacao, parar_gravacao, reconectar_gravacao
 from rich.console import Console
 from registro import PainelAoVivo, extrair_header_sip, extrair_q850_cause, gerar_batch_id
-from config_manager import carregar_config, obter_senha
+from config_manager import carregar_config, obter_senha, TECH_PADRAO
 
 Console = Console()
-
-TECH = "170"  # tech padrão, usado pelas operadoras que não têm tech própria em TECH_OPERADORAS
 
 TRONCO_OPERADORAS = {
     "OTIMA": "2223",
@@ -22,23 +20,19 @@ TRONCO_OPERADORAS = {
     "LEMIT": "1234",
 }
 
-TECH_OPERADORAS = {
-    "LEMIT": "225",
-}
-
 CODIGO_ROTA = "5060"
 
-def numero_discagem(operadora, numero_ddd):
+def numero_discagem(operadora, numero_ddd, tech_por_operadora=None):
     tronco = TRONCO_OPERADORAS.get(operadora)
     if tronco is None:
         raise ValueError(f"OPERADORA '{operadora}' não identificada em TRONCO_OPERADORAS")
-    tech = TECH_OPERADORAS.get(operadora, TECH)
+    tech = (tech_por_operadora or {}).get(operadora, TECH_PADRAO)
     return f"{tech}{tronco}{numero_ddd}"
 
 
 class TesteCall(pj.Call):
 
-    def __init__(self, acc, call_id=pj.PJSUA_INVALID_ID, operadora=None, telefone=None, ip=None, ramal=None, painel=None, batch_id=None, cenario="ligado"):
+    def __init__(self, acc, call_id=pj.PJSUA_INVALID_ID, operadora=None, telefone=None, ip=None, ramal=None, painel=None, batch_id=None, cenario="ligado", rota=None):
         pj.Call.__init__(self, acc, call_id)
         self.t_invite = None
         self.t_ring = None
@@ -53,6 +47,7 @@ class TesteCall(pj.Call):
         self.painel = painel   # <--- Recebe o painel aqui
         self.batch_id = batch_id
         self.cenario = cenario  # "ligado" ou "desligado" — escolhido ao iniciar a bateria
+        self.rota = rota  # tech usado pra discar (ex.: "170"/"225") — TECH_OPERADORAS/config
         self.desligamos_local = False  # True se fomos nós que pedimos hangup (ex.: stop_event)
 
         # Dados da Fase 2, coletados aos poucos conforme a chamada progride
@@ -280,6 +275,7 @@ class TesteCall(pj.Call):
             "rtt_ms": rtt_ms,
             "cenario": self.cenario,
             "sip_mensagem_bruta": self.sip_mensagem_bruta,
+            "rota": self.rota,
         }
 
         # Envia os dados para o painel atualizar a tabela e salvar no CSV automaticamente
@@ -348,6 +344,7 @@ def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None
     ramal = config["ramal"]
     sip_domain = config["sip_domain"]
     cenario = config.get("cenario", "ligado")
+    tech_por_operadora = config.get("tech_por_operadora", {})
     batch_id = gerar_batch_id()
     Console.print(f"[bold cyan]Batch: {batch_id} — cenário: {cenario}")
 
@@ -370,7 +367,8 @@ def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None
             if on_progresso is not None:
                 on_progresso(destino, operadora, "iniciando")
 
-            numero_fical = numero_discagem(operadora, destino)
+            numero_fical = numero_discagem(operadora, destino, tech_por_operadora)
+            rota = tech_por_operadora.get(operadora, TECH_PADRAO)
 
             call = TesteCall(
                 acc=acc,
@@ -381,7 +379,8 @@ def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None
                 ramal=ramal,
                 painel=painel,  # <--- Passando o painel para a chamada
                 batch_id=batch_id,
-                cenario=cenario
+                cenario=cenario,
+                rota=rota,
             )
 
             call_prm = pj.CallOpParam(True)

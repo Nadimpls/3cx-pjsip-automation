@@ -59,6 +59,9 @@ CAMPOS_CSV = [
     # Texto cru da última mensagem SIP recebida da rede (sem parsing nem
     # interpretação) — o "esqueleto" da resposta, pra conferência direta.
     "sip_mensagem_bruta",
+    # Tech/rota usada pra discar (ex.: "170"/"225") — configurável por
+    # operadora na tela de configuração.
+    "rota",
 ]
 
 CENARIOS_VALIDOS = ("ligado", "desligado")
