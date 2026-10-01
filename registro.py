@@ -41,21 +41,10 @@ CAMPOS_CSV = [
     "jitter_medio_ms",
     "jitter_maximo_ms",
     "rtt_ms",
-    # Anotações manuais — o sistema não tem como capturar isso sozinho
-    # (BINA real e detecção de SPAM exigem visibilidade que só existe no
-    # aparelho de destino), então ficam em branco até o usuário preencher
-    # depois de encerrar a chamada.
     "bina_manual",
     "spam",
-    # Cenário do teste: "ligado" (padrão) ou "desligado" — escolhido na hora
-    # de iniciar a bateria, pra poder segmentar histórico/dashboard entre
-    # testes com o celular de destino ligado e desligado.
     "cenario",
-    # Texto cru da última mensagem SIP recebida da rede (sem parsing nem
-    # interpretação) — o "esqueleto" da resposta, pra conferência direta.
     "sip_mensagem_bruta",
-    # Tech/rota usada pra discar (ex.: "170"/"225") — configurável por
-    # operadora na tela de configuração.
     "rota",
 ]
 
@@ -86,7 +75,6 @@ def extrair_q850_cause(texto_sip):
 def registrar_resultado(self):
     pdd_s = None
     if self.t_invite and self.t_ring:
-        # Subtrai o momento do ring menos o momento do invite, dando o valor em segundos
         pdd_s = round(self.t_ring - self.t_invite, 2)
 
     setup_s = None
@@ -97,8 +85,8 @@ def registrar_resultado(self):
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "ramal": self.ramal,
         "tronco": self.operadora,
-        "pdd_s": pdd_s,            # PDD em segundos
-        "setup_time_s": setup_s,    # Tempo total de atendimento em segundos
+        "pdd_s": pdd_s,          
+        "setup_time_s": setup_s,   
         "sip_code": self.last_status_code,
         "sip_reason": self.last_status_text,
         "atendida": self.t_answer is not None,
@@ -134,10 +122,6 @@ def montar_tabela(chamadas):
 
 
 def _migrar_cabecalho_se_necessario(caminho_completo):
-    """Se o CSV já existir com um cabeçalho mais antigo (menos colunas do
-    que o CAMPOS_CSV atual, ex.: antes da Fase 2), reescreve só a linha de
-    cabeçalho pra incluir as colunas novas. As linhas de dados antigas não
-    são tocadas — csv.DictReader já preenche o que faltar nelas com vazio."""
     with open(caminho_completo, "r", newline="", encoding="utf-8") as f:
         primeira_linha = f.readline()
         if not primeira_linha:
@@ -176,7 +160,6 @@ def salvar_csv(row, caminho="resultado_pdd.csv"):
 
 
 class PainelAoVivo:
-    """Mantém uma lista de chamadas e atualiza a tabela em tempo real."""
 
     def __init__(self):
         self.chamadas = []
@@ -199,7 +182,6 @@ CAMINHO_CSV_PADRAO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "r
 
 
 def ler_todos_resultados(caminho=CAMINHO_CSV_PADRAO):
-    """Lê o histórico completo do CSV (todas as execuções, de sempre)."""
     if not os.path.exists(caminho):
         return []
     with open(caminho, "r", newline="", encoding="utf-8") as f:
@@ -207,13 +189,6 @@ def ler_todos_resultados(caminho=CAMINHO_CSV_PADRAO):
 
 
 def atualizar_campos_chamada(timestamp, tronco, numero, campos, caminho=CAMINHO_CSV_PADRAO):
-    """Atualiza campos preenchidos manualmente (bina_manual, spam) numa
-    chamada já registrada, identificada por timestamp+tronco+número (não
-    existe um id próprio no CSV, mas essa combinação já é única na prática,
-    já que os testes rodam um de cada vez). Reescreve o CSV inteiro,
-    preservando as outras linhas como estão.
-
-    Retorna True se achou e atualizou a linha, False se não encontrou."""
     if not os.path.exists(caminho):
         return False
 
@@ -241,10 +216,6 @@ def atualizar_campos_chamada(timestamp, tronco, numero, campos, caminho=CAMINHO_
 
 
 def gerar_batch_id(caminho=CAMINHO_CSV_PADRAO):
-    """Gera um identificador único pra uma bateria de testes inteira (ex.:
-    BATCH-20260916-002), pra depois dar pra comparar operadoras dentro da
-    mesma execução. Conta quantos batches já existem hoje no CSV e usa o
-    próximo número — chamadas antigas sem batch_id não contam."""
     hoje = time.strftime("%Y%m%d")
     prefixo = f"BATCH-{hoje}-"
     existentes = {
@@ -256,8 +227,7 @@ def gerar_batch_id(caminho=CAMINHO_CSV_PADRAO):
 
 
 def dias_disponiveis(caminho=CAMINHO_CSV_PADRAO):
-    """Retorna as datas (AAAA-MM-DD) com testes registrados, mais recente
-    primeiro, junto com a quantidade de testes em cada uma."""
+
     contagem = {}
     for linha in ler_todos_resultados(caminho):
         data = (linha.get("timestamp") or "")[:10]
@@ -271,7 +241,7 @@ def dias_disponiveis(caminho=CAMINHO_CSV_PADRAO):
 
 
 def resultados_do_dia(data, caminho=CAMINHO_CSV_PADRAO):
-    """Todas as linhas do CSV cujo timestamp começa com essa data (AAAA-MM-DD)."""
+
     return [
         linha for linha in ler_todos_resultados(caminho)
         if (linha.get("timestamp") or "").startswith(data)
@@ -282,16 +252,7 @@ _PADRAO_NOME_AUDIO = re.compile(r"^(.+)_(\d+)_(\d{8})_(\d{6})\.wav$", re.IGNOREC
 
 
 def resultados_do_dia_com_audio(data, audios_dir, caminho=CAMINHO_CSV_PADRAO):
-    """Como resultados_do_dia(), mas anexa o nome do arquivo .wav correspondente
-    a cada linha atendida (chave "arquivo_audio"), quando existir.
 
-    O CSV não guarda o nome do arquivo de gravação, então o pareamento é feito
-    por (operadora, número): agrupamos as gravações daquele dia por essa chave,
-    ordenadas pelo horário embutido no próprio nome do arquivo, e casamos em
-    ordem com as linhas atendidas daquele mesmo (operadora, número) — como as
-    chamadas de uma bateria de testes são sequenciais, a N-ésima gravação de um
-    par operadora/número corresponde à N-ésima linha atendida desse par.
-    """
     linhas = resultados_do_dia(data, caminho)
 
     data_compacta = data.replace("-", "")
@@ -326,8 +287,7 @@ def resultados_do_dia_com_audio(data, audios_dir, caminho=CAMINHO_CSV_PADRAO):
 
 
 def audios_do_dia(data, audios_dir):
-    """Lista os arquivos .wav gravados numa data (AAAA-MM-DD), mais recentes
-    primeiro, a partir da data embutida no próprio nome do arquivo."""
+
     data_compacta = data.replace("-", "")
     encontrados = []
     if os.path.isdir(audios_dir):
@@ -340,8 +300,7 @@ def audios_do_dia(data, audios_dir):
 
 
 def _para_float(valor):
-    """Converte um valor de célula do CSV pra float, ou None se vazio/
-    inválido — nunca inventa um número."""
+
     if valor is None or valor == "":
         return None
     try:
@@ -351,9 +310,7 @@ def _para_float(valor):
 
 
 def _percentil(valores_ordenados, p):
-    """Percentil por interpolação linear (método do rank mais próximo com
-    interpolação), só com stdlib. `valores_ordenados` já deve estar em
-    ordem crescente."""
+
     if not valores_ordenados:
         return None
     if len(valores_ordenados) == 1:
@@ -367,9 +324,6 @@ def _percentil(valores_ordenados, p):
 
 
 def _stat_lista(valores):
-    """Média/mediana/P95/mínimo/máximo de uma lista de números — ou tudo
-    None se a lista estiver vazia (métrica sem dado suficiente vira N/D,
-    nunca um valor inventado)."""
     if not valores:
         return {"media": None, "mediana": None, "p95": None, "minimo": None, "maximo": None}
     ordenados = sorted(valores)
@@ -383,9 +337,7 @@ def _stat_lista(valores):
 
 
 def _filtrar_linhas(linhas, data=None, cenario=None):
-    """Filtro comum das funções de dashboard: por dia (prefixo do timestamp)
-    e por cenário (ligado/desligado). Linhas antigas sem "cenario" preenchido
-    contam como "ligado" — é o que todo teste era antes desse campo existir."""
+
     if data:
         linhas = [l for l in linhas if (l.get("timestamp") or "").startswith(data)]
     if cenario:
@@ -394,12 +346,7 @@ def _filtrar_linhas(linhas, data=None, cenario=None):
 
 
 def estatisticas_por_operadora(caminho=CAMINHO_CSV_PADRAO, data=None, cenario=None):
-    """Agrega os resultados por operadora (tronco): contagens, ASR, PDD e
-    Setup (média/mediana/P95/min/max), ACD (média de talk_duration_s das
-    atendidas) e distribuição de códigos SIP. `data` (AAAA-MM-DD) filtra
-    pra um dia só; sem ela, agrega tudo. Linhas antigas (de antes das Fases
-    2/3) simplesmente não contribuem pros campos que não tinham — a métrica
-    fica None se não sobrar dado nenhum, nunca inventada."""
+
     linhas = _filtrar_linhas(ler_todos_resultados(caminho), data=data, cenario=cenario)
 
     por_operadora = {}
@@ -470,9 +417,6 @@ def estatisticas_por_dia(operadora, caminho=CAMINHO_CSV_PADRAO, cenario=None):
 
 
 def chamadas_por_operadora(operadora, caminho=CAMINHO_CSV_PADRAO, cenario=None):
-    """Uma linha por chamada (não agregado por dia) de uma operadora
-    específica, em ordem cronológica — pra ver a variação ligação a
-    ligação, não só a média do dia."""
     linhas = _filtrar_linhas(ler_todos_resultados(caminho), cenario=cenario)
     linhas = [l for l in linhas if l.get("tronco") == operadora]
     linhas.sort(key=lambda l: l.get("timestamp") or "")
@@ -489,9 +433,6 @@ def chamadas_por_operadora(operadora, caminho=CAMINHO_CSV_PADRAO, cenario=None):
 
 
 def chamadas_todas_operadoras(caminho=CAMINHO_CSV_PADRAO, cenario=None):
-    """Como chamadas_por_operadora(), mas com TODAS as operadoras juntas
-    numa única linha do tempo cronológica (por chamada, não por dia) — pra
-    comparar operadoras chamada a chamada, não só a média do dia."""
     linhas = _filtrar_linhas(ler_todos_resultados(caminho), cenario=cenario)
     linhas.sort(key=lambda l: l.get("timestamp") or "")
 
@@ -508,9 +449,6 @@ def chamadas_todas_operadoras(caminho=CAMINHO_CSV_PADRAO, cenario=None):
 
 
 def evolucao_todas_operadoras(caminho=CAMINHO_CSV_PADRAO, cenario=None):
-    """Como estatisticas_por_dia(), mas pra TODAS as operadoras de uma vez,
-    agrupadas por dia — pra comparar a tendência de várias operadoras no
-    mesmo gráfico em vez de uma por vez."""
     linhas = _filtrar_linhas(ler_todos_resultados(caminho), cenario=cenario)
 
     por_dia_operadora = {}
@@ -542,11 +480,7 @@ def evolucao_todas_operadoras(caminho=CAMINHO_CSV_PADRAO, cenario=None):
 
 
 class PainelWeb:
-    """Substituto de PainelAoVivo para uso pela interface web: em vez de
-    desenhar uma tabela Rich no terminal, guarda os resultados numa lista
-    em memória thread-safe que a API Flask pode ler via /api/results.
-    Mesma interface (.registrar(row)) e mesma persistência em CSV."""
-
+    
     def __init__(self):
         self._lock = threading.Lock()
         self.chamadas = []
@@ -557,9 +491,7 @@ class PainelWeb:
             self.chamadas.append(row)
 
     def adicionar_resultado(self, row):
-        """Como .registrar(), mas sem gravar no CSV de novo — usada quando
-        quem já gravou o CSV foi o processo isolado do PJSUA2, e aqui só
-        precisamos espelhar o resultado em memória para a API servir."""
+
         with self._lock:
             self.chamadas.append(row)
 
