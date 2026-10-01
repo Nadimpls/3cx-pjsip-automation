@@ -10,9 +10,6 @@ wav_writer = None
 
 
 def _media_de_audio(call):
-    """Acha a AudioMedia atual da chamada (pode mudar quando o PJSIP
-    renegocia a sessão, ex.: o re-INVITE automático pra fechar em um
-    único codec logo após atender)."""
     call_info = call.getInfo()
     for media_idx in range(len(call_info.media)):
         if call_info.media[media_idx].type == pj.PJMEDIA_TYPE_AUDIO:
@@ -28,17 +25,15 @@ def iniciar_gravacao(call, file_path="gravacao_chamada.wav", target_folder="./au
 
         full_path = os.path.join(target_folder, file_path)
 
-        # Instancia e cria o arquivo de gravação
         wav_writer = pj.AudioMediaRecorder()
         wav_writer.createRecorder(full_path)
 
-        # Pequena pausa para garantir que o canal de mídia subiu na rede
+
         time.sleep(0.5)
 
         call_media = _media_de_audio(call)
 
         if call_media:
-            # Grava o áudio que vem da outra pessoa (remoto)
             call_media.startTransmit(wav_writer)
             print(f"GRAVANDO CHAMADA COM SUCESSO EM: {full_path}")
         else:
@@ -51,12 +46,6 @@ def iniciar_gravacao(call, file_path="gravacao_chamada.wav", target_folder="./au
 
 
 def reconectar_gravacao(call):
-    """Reconecta o áudio da chamada ao gravador já aberto. O PJSIP recria a
-    sessão de mídia quando renegocia a chamada (ex.: o re-INVITE automático
-    logo após atender, pra fechar em um único codec) — sem isso, a gravação
-    parava de capturar áudio a partir desse momento, mesmo a ligação
-    continuando normalmente. Chamada em toda mudança de mídia
-    (onCallMediaState); não faz nada se a gravação ainda não começou."""
     global wav_writer
     if wav_writer is None:
         return
@@ -75,7 +64,6 @@ def parar_gravacao(call):
         return
 
     try:
-        # Tenta desconectar a mídia de áudio de forma segura (se a chamada ainda estiver viva)
         try:
             call_info = call.getInfo()
             call_media = None
@@ -88,9 +76,9 @@ def parar_gravacao(call):
             if call_media:
                 call_media.stopTransmit(wav_writer)
         except Exception:
-            pass  # Ignora se a sessão SIP já foi completamente encerrada
+            pass  
 
-        # Tenta deletar/fechar o gravador para salvar o arquivo WAV no disco
+
         try:
             wav_writer.delete()
         except Exception:
@@ -102,5 +90,4 @@ def parar_gravacao(call):
     except Exception as err:
         print(f"ERRO AO PARAR A GRAVAÇÃO: {err}")
     finally:
-        # Garante que a variável global seja limpa em qualquer cenário
         wav_writer = None

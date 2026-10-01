@@ -3,11 +3,13 @@ import json
 import os
 import re
 import time
+from db import salvar_registro_chamada
 import pjsua2 as pj
 from gravador import iniciar_gravacao, parar_gravacao, reconectar_gravacao
 from rich.console import Console
 from registro import PainelAoVivo, extrair_header_sip, extrair_q850_cause, gerar_batch_id
 from config_manager import carregar_config, obter_senha, TECH_PADRAO
+from db import init_db, salvar_registro_chamada
 
 Console = Console()
 
@@ -32,7 +34,19 @@ def numero_discagem(operadora, numero_ddd, tech_por_operadora=None):
 
 class TesteCall(pj.Call):
 
-    def __init__(self, acc, call_id=pj.PJSUA_INVALID_ID, operadora=None, telefone=None, ip=None, ramal=None, painel=None, batch_id=None, cenario="ligado", rota=None):
+    def __init__(
+        self,
+        acc,
+        call_id=pj.PJSUA_INVALID_ID,
+        operadora=None,
+        telefone=None,
+        ip=None,
+        ramal=None,
+        painel=None,
+        batch_id=None,
+        cenario="ligado",
+        rota=None,
+    ):
         pj.Call.__init__(self, acc, call_id)
         self.t_invite = None
         self.t_ring = None
@@ -44,14 +58,12 @@ class TesteCall(pj.Call):
         self.telefone = telefone
         self.ip = ip
         self.ramal = ramal
-        self.painel = painel   # <--- Recebe o painel aqui
+        self.painel = painel
         self.batch_id = batch_id
-        self.cenario = cenario  # "ligado" ou "desligado" — escolhido ao iniciar a bateria
-        self.rota = rota  # tech usado pra discar (ex.: "170"/"225") — TECH_OPERADORAS/config
-        self.desligamos_local = False  # True se fomos nós que pedimos hangup (ex.: stop_event)
-
-        # Dados da Fase 2, coletados aos poucos conforme a chamada progride
-        self.eventos_sip = []       # [{"codigo", "motivo", "t_desde_invite_s"}, ...]
+        self.cenario = cenario
+        self.rota = rota
+        self.desligamos_local = False
+        self.eventos_sip = []
         self._ultimo_codigo_evento = None
         self.bina_configurado = ramal
         self.bina_enviado = None
@@ -59,14 +71,7 @@ class TesteCall(pj.Call):
         self.bina_header_pai = None
         self.bina_header_rpid = None
         self.q850_cause = None
-        self.sip_mensagem_bruta = None  # texto cru da última mensagem SIP recebida (sem parsing/interpretação)
-
-        # Dados de RTP/codec da Fase 3, amostrados periodicamente enquanto a
-        # chamada está confirmada (só existem depois que a mídia sobe). O
-        # PJSIP já mantém jitter/RTT como estatística agregada (média/máximo
-        # desde o início da mídia, via MathStat) — a cada amostra a gente só
-        # guarda a leitura mais recente, que já reflete a chamada inteira
-        # até aquele ponto; não precisamos recalcular médias por fora.
+        self.sip_mensagem_bruta = None
         self.codec = None
         self.payload_type = None
         self._rtt_medio_usec = None
@@ -75,14 +80,10 @@ class TesteCall(pj.Call):
         self._packet_loss = None
         self._jitter_medio_usec = None
         self._jitter_maximo_usec = None
+        self.recorder = None
+        self.nome_arquivo_audio = None
 
     def amostrar_rtp(self):
-        """Tira um snapshot do codec e dos contadores RTP/RTCP da chamada
-        (Call.getStreamInfo/getStreamStat — dados que o próprio PJSUA2 já
-        expõe, nada calculado por fora). Chamado periodicamente pelo loop
-        de espera em executar_bateria enquanto a chamada está ativa; sem
-        media (chamada não atendida) isso simplesmente não faz nada, sem
-        erro."""
         try:
             info = self.getStreamInfo(0)
             if info and info.codecName:
@@ -92,8 +93,6 @@ class TesteCall(pj.Call):
             stat = self.getStreamStat(0)
             if stat and stat.rtcp:
                 rtcp = stat.rtcp
-                # jitterUsec/rttUsec são pj::MathStat (n/min/max/last/mean),
-                # o PJSIP já agrega isso sozinho — não são números soltos.
                 if rtcp.rttUsec:
                     self._rtt_medio_usec = rtcp.rttUsec.mean
                 self._packets_enviados = rtcp.txStat.pkt
@@ -101,7 +100,9 @@ class TesteCall(pj.Call):
                 self._packet_loss = rtcp.rxStat.loss
                 if rtcp.rxStat.jitterUsec:
                     self._jitter_medio_usec = rtcp.rxStat.jitterUsec.mean
-                    self._jitter_maximo_usec = rtcp.rxStat.jitterUsec.max
+                    self._jitter_maximo_usec = (
+                        rtcp.rxStat.jitterUsec.max
+                    )
         except Exception:
             pass
 
@@ -111,46 +112,77 @@ class TesteCall(pj.Call):
 
         if ci.state == pj.PJSIP_INV_STATE_CALLING:
             self.t_invite = now
+
         elif ci.state == pj.PJSIP_INV_STATE_EARLY:
             if self.t_ring is None:
                 self.t_ring = now
                 self.last_status_code = ci.lastStatusCode
                 self.last_status_text = ci.lastReason
+
         elif ci.state == pj.PJSIP_INV_STATE_CONFIRMED:
             self.t_answer = now
-            nome_arquivo = f"{self.operadora}_{self.telefone}_{time.strftime('%Y%m%d_%H%M%S')}.wav"
-            iniciar_gravacao(self, file_path=nome_arquivo)
-            
+
+            # CORREÇÃO 2: Grava o nome do arquivo no atributo da instância (self)
+            op_str = self.operadora or "OP"
+            tel_str = self.telefone or "TEL"
+            self.nome_arquivo_audio = f"{op_str}_{tel_str}_{time.strftime('%Y%m%d_%H%M%S')}.wav"
+
+            try:
+                iniciar_gravacao(self, file_path=self.nome_arquivo_audio)
+            except Exception as e:
+                if self.painel and hasattr(self.painel, "log_erro"):
+                    self.painel.log_erro(f"Erro ao iniciar gravação: {e}")
+
         elif ci.state == pj.PJSIP_INV_STATE_DISCONNECTED:
             self.t_end = now
             self.last_status_code = ci.lastStatusCode
             self.last_status_text = ci.lastReason
-            
-            parar_gravacao(self)
-            self.registrar_resultado()
+
+            # Amostra estatísticas finais de mídia antes de fechar
+            self.amostrar_rtp()
+
+            # Tenta parar a gravação de mídia
+            try:
+                parar_gravacao(self)
+            except Exception as e:
+                pass
+
+            # Registra no painel/memória local
+            if hasattr(self, "registrar_resultado"):
+                try:
+                    self.registrar_resultado()
+                except Exception:
+                    pass
+
+            # CORREÇÃO 3: Bloco seguro para gravação no SQLite
+            try:
+                salvar_registro_chamada(
+                    self, nome_audio=self.nome_arquivo_audio
+                )
+                print(
+                    f"[SQLite] Chamada para {self.telefone} registrada com sucesso!"
+                )
+            except Exception as e:
+                print(f"[SQLite ERRO] Falha ao gravar chamada no banco: {e}")
 
     def onCallMediaState(self, prm):
-        # O PJSIP recria a sessão de mídia quando renegocia a chamada (ex.:
-        # o re-INVITE automático logo após atender, pra fechar em um único
-        # codec) — isso desconectava a gravação silenciosamente a partir
-        # desse momento. Reconecta sempre que a mídia mudar; não faz nada
-        # se a gravação ainda não tiver começado.
-        reconectar_gravacao(self)
+        try:
+            reconectar_gravacao(self)
+        except Exception:
+            pass
 
     def onCallTsxState(self, prm):
-        # Dispara a cada transição de transação SIP (cada resposta
-        # provisória/final). Usamos só pra: (1) registrar cada código SIP
-        # distinto com timestamp, coisa que onCallState não dá (ele só pega
-        # o primeiro EARLY); e (2) tentar ler o texto SIP cru que o próprio
-        # PJSUA2 já entrega (wholeMsg) pra extrair BINA/Q.850 quando
-        # existirem. Nunca deixamos uma falha aqui atrapalhar a chamada.
         try:
             ci = self.getInfo()
             codigo = ci.lastStatusCode
             motivo = ci.lastReason
 
             if codigo and codigo != self._ultimo_codigo_evento:
-                t_relativo = round(time.time() - self.t_invite, 2) if self.t_invite else None
+                t_relativo = (
+                    round(time.time() - self.t_invite, 2)
+                    if self.t_invite
+                    else None
+                )
                 self.eventos_sip.append({
                     "codigo": codigo,
                     "motivo": motivo,
@@ -162,9 +194,6 @@ class TesteCall(pj.Call):
             texto = None
             if src.rdata is not None and src.rdata.wholeMsg:
                 texto = src.rdata.wholeMsg
-                # Guarda o texto cru da última mensagem RECEBIDA da rede
-                # (não a que nós mandamos) — é literalmente o que a
-                # operadora respondeu, sem nenhum parsing por cima.
                 self.sip_mensagem_bruta = texto
             elif src.tdata is not None and src.tdata.wholeMsg:
                 texto = src.tdata.wholeMsg
@@ -174,7 +203,9 @@ class TesteCall(pj.Call):
                     from_header = extrair_header_sip(texto, "From")
                     if from_header:
                         self.bina_header_from = from_header
-                        m = re.search(r"sip:([^@;>]+)@", from_header, re.IGNORECASE)
+                        m = re.search(
+                            r"sip:([^@;>]+)@", from_header, re.IGNORECASE
+                        )
                         if m:
                             self.bina_enviado = m.group(1)
 
@@ -196,14 +227,12 @@ class TesteCall(pj.Call):
     def registrar_resultado(self):
         pdd_s = None
         if self.t_invite and self.t_ring:
-            pdd_s = round(self.t_ring - self.t_invite, 2)  # Segundos com 2 casas decimais
+            pdd_s = round(self.t_ring - self.t_invite, 2)
 
         setup_s = None
         if self.t_invite and self.t_answer:
             setup_s = round(self.t_answer - self.t_invite, 2)
 
-        # Durações adicionais (Fase 2) — mesma fonte de tempo (time.time())
-        # já usada pra PDD/setup, só medindo outros trechos da chamada.
         ring_duration_s = None
         if self.t_ring and self.t_answer:
             ring_duration_s = round(self.t_answer - self.t_ring, 2)
@@ -216,80 +245,73 @@ class TesteCall(pj.Call):
         if self.t_invite and self.t_end:
             total_duration_s = round(self.t_end - self.t_invite, 2)
 
-        # release_by é uma INFERÊNCIA por convenção (o PJSUA2 não entrega um
-        # "quem desligou" pronto) — por isso release_by_fonte fica marcado
-        # explicitamente, pra nunca ser lido como um fato garantido.
-        if self.desligamos_local:
+        if getattr(self, "desligamos_local", False):
             release_by = "LOCAL"
         elif self.t_answer is not None:
             release_by = "REMOTE"
         else:
             release_by = "NETWORK"
 
-        # RTP/codec (Fase 3) — só existem se a chamada chegou a ter mídia
-        # (atendida). jitter/RTT já vêm agregados (média/máximo) direto do
-        # PJSIP na última amostra antes do desligamento; packets/loss idem.
-        # Nada aqui é inventado: se não amostrou nenhuma vez (não atendida,
-        # ou mídia muito curta), fica None/N-D.
-        jitter_medio_ms = round(self._jitter_medio_usec / 1000, 2) if self._jitter_medio_usec is not None else None
-        jitter_maximo_ms = round(self._jitter_maximo_usec / 1000, 2) if self._jitter_maximo_usec is not None else None
-        rtt_ms = round(self._rtt_medio_usec / 1000, 2) if self._rtt_medio_usec is not None else None
+        jitter_medio_ms = round(self._jitter_medio_usec / 1000, 2) if getattr(self, "_jitter_medio_usec", None) is not None else None
+        jitter_maximo_ms = round(self._jitter_maximo_usec / 1000, 2) if getattr(self, "_jitter_maximo_usec", None) is not None else None
+        rtt_ms = round(self._rtt_medio_usec / 1000, 2) if getattr(self, "_rtt_medio_usec", None) is not None else None
 
         packet_loss_pct = None
-        if self._packet_loss is not None and self._packets_recebidos is not None:
-            total_esperado = self._packet_loss + self._packets_recebidos
+        pk_loss = getattr(self, "_packet_loss", None)
+        pk_rec = getattr(self, "_packets_recebidos", None)
+        if pk_loss is not None and pk_rec is not None:
+            total_esperado = pk_loss + pk_rec
             if total_esperado > 0:
-                packet_loss_pct = round(self._packet_loss / total_esperado * 100, 2)
+                packet_loss_pct = round(pk_loss / total_esperado * 100, 2)
 
         row = {
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "ramal": self.ramal,
-            "tronco": self.operadora,
+            "ramal": getattr(self, "ramal", ""),
+            "tronco": getattr(self, "operadora", ""),
             "pdd_s": pdd_s,
             "setup_time_s": setup_s,
-            "sip_code": self.last_status_code,
-            "sip_reason": self.last_status_text,
+            "sip_code": getattr(self, "last_status_code", 0),
+            "sip_reason": getattr(self, "last_status_text", ""),
             "atendida": self.t_answer is not None,
-            "Número": self.telefone,
-            "batch_id": self.batch_id,
-            "bina_configurado": self.bina_configurado,
-            "bina_enviado": self.bina_enviado,
-            "bina_header_from": self.bina_header_from,
-            "bina_header_pai": self.bina_header_pai,
-            "bina_header_rpid": self.bina_header_rpid,
-            "sip_events": json.dumps(self.eventos_sip, ensure_ascii=False),
-            "q850_cause": self.q850_cause,
+            "Número": getattr(self, "telefone", ""),
+            "batch_id": getattr(self, "batch_id", ""),
+            "bina_configurado": getattr(self, "bina_configurado", None),
+            "bina_enviado": getattr(self, "bina_enviado", None),
+            "bina_header_from": getattr(self, "bina_header_from", None),
+            "bina_header_pai": getattr(self, "bina_header_pai", None),
+            "bina_header_rpid": getattr(self, "bina_header_rpid", None),
+            "sip_events": json.dumps(getattr(self, "eventos_sip", []), ensure_ascii=False),
+            "q850_cause": getattr(self, "q850_cause", None),
             "release_by": release_by,
             "release_by_fonte": "inferido",
             "ring_duration_s": ring_duration_s,
             "talk_duration_s": talk_duration_s,
             "total_duration_s": total_duration_s,
-            "codec": self.codec,
-            "payload_type": self.payload_type,
-            "packets_enviados": self._packets_enviados,
-            "packets_recebidos": self._packets_recebidos,
-            "packet_loss": self._packet_loss,
+            "codec": getattr(self, "codec", None),
+            "payload_type": getattr(self, "payload_type", None),
+            "packets_enviados": getattr(self, "_packets_enviados", None),
+            "packets_recebidos": pk_rec,
+            "packet_loss": pk_loss,
             "packet_loss_pct": packet_loss_pct,
             "jitter_medio_ms": jitter_medio_ms,
             "jitter_maximo_ms": jitter_maximo_ms,
             "rtt_ms": rtt_ms,
-            "cenario": self.cenario,
-            "sip_mensagem_bruta": self.sip_mensagem_bruta,
-            "rota": self.rota,
+            "cenario": getattr(self, "cenario", ""),
+            "sip_mensagem_bruta": getattr(self, "sip_mensagem_bruta", None),
+            "rota": getattr(self, "rota", None),
         }
 
-        # Envia os dados para o painel atualizar a tabela e salvar no CSV automaticamente
+        # Garante envio do dicionário correto ao painel/banco
+        if hasattr(self, "painel") and self.painel:
+            self.painel.registrar(dict(row))
+            
+        return row
+
         if self.painel:
             self.painel.registrar(row)
 
 
 def criar_endpoint_e_conta(config, nome_thread="main_thread"):
-    """Sobe o Endpoint PJSUA2, o transporte UDP e registra a conta SIP.
-
-    `config` é um dict simples: sip_domain, porta_sip, ramal, auth_id, senha
-    (texto puro), operadoras, destinos. Quem chama (CLI ou app web) resolve
-    a senha antes de passar pra cá — esta função não sabe de onde ela veio.
-    """
     ep = pj.Endpoint()
     ep.libCreate()
 
@@ -297,14 +319,6 @@ def criar_endpoint_e_conta(config, nome_thread="main_thread"):
     log_cfg = ep_cfg.logConfig
     log_cfg.level = 4
     log_cfg.consoleLevel = 4
-    # Esta extensão PJSUA2 (binário compilado por fora) crasha com
-    # "Segmentation fault" quando a thread interna que o próprio PJSIP cria
-    # ("pjsua_0") tenta chamar de volta pro Python (ex.: onCallState) sem
-    # ter inicializado o estado do interpretador corretamente — um bug do
-    # binding, confirmado via backtrace do gdb. Desativando as threads
-    # internas do PJSUA2 e mantendo mainThreadOnly ligado, todo o
-    # processamento (e os callbacks pro Python) passa a acontecer só na
-    # thread que chama ep.libHandleEvents(), evitando esse crash.
     ep_cfg.uaConfig.threadCnt = 0
     ep_cfg.uaConfig.mainThreadOnly = True
     ep.libInit(ep_cfg)
@@ -333,14 +347,6 @@ def criar_endpoint_e_conta(config, nome_thread="main_thread"):
 
 
 def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None):
-    """Roda a bateria de testes (todos os destinos x todas as operadoras).
-
-    Lógica idêntica à do script original — só passou a ler `config` em vez
-    de constantes fixas, a checar `stop_event` entre um teste e outro para
-    permitir parar pela interface web sem derrubar o processo, e a chamar
-    `on_progresso(destino, operadora, etapa)` (etapa: "iniciando"/"concluido")
-    para a interface web saber qual teste está rodando agora.
-    """
     ramal = config["ramal"]
     sip_domain = config["sip_domain"]
     cenario = config.get("cenario", "ligado")
@@ -348,7 +354,6 @@ def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None
     batch_id = gerar_batch_id()
     Console.print(f"[bold cyan]Batch: {batch_id} — cenário: {cenario}")
 
-    # LOOP 1: Percorre cada número da lista de destinos
     for destino in config["destinos"]:
         if stop_event is not None and stop_event.is_set():
             break
@@ -364,8 +369,12 @@ def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None
 
             Console.print(f"\n[bold cyan]--- Testando operadora: {operadora} para o número {destino} ---")
 
+            # Callback de progresso seguro (garante dados isolados e não tuplas soltas)
             if on_progresso is not None:
-                on_progresso(destino, operadora, "iniciando")
+                try:
+                    on_progresso(destino, operadora, "iniciando")
+                except Exception as err_prog:
+                    Console.print(f"[bold yellow]Aviso no callback de progresso (iniciando): {err_prog}")
 
             numero_fical = numero_discagem(operadora, destino, tech_por_operadora)
             rota = tech_por_operadora.get(operadora, TECH_PADRAO)
@@ -377,7 +386,7 @@ def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None
                 telefone=destino,
                 ip=sip_domain,
                 ramal=ramal,
-                painel=painel,  # <--- Passando o painel para a chamada
+                painel=painel,
                 batch_id=batch_id,
                 cenario=cenario,
                 rota=rota,
@@ -386,30 +395,43 @@ def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None
             call_prm = pj.CallOpParam(True)
             dst_uri = f"sip:{numero_fical}@{sip_domain}"
 
-            # 2. CAPTURAR ERROS NATIVOS DO C++
+            # 2. CAPTURAR ERROS NATIVOS DO C++ NO MAKECALL
             try:
                 call.makeCall(dst_uri, call_prm)
             except pj.Error as e:
                 Console.print(f"[bold red]Erro ao disparar makeCall para {dst_uri}: {e.info()}")
+                # Registra falha de disparo direto no CDR/Painel em formato de dicionário
+                if hasattr(call, "registrar_resultado"):
+                    call.last_status_code = 500
+                    call.last_status_text = f"Erro PJSIP: {e.info()}"
+                    call.registrar_resultado()
                 continue
 
             # 3. BOMBEAR EVENTOS DO PJSIP NO LOOP DE ESPERA
             proxima_amostra_rtp = 0.0
             while True:
                 try:
-                    ep.libHandleEvents(50)  # Mantém a pilha SIP ativa e escutando a rede
-                    state = call.getInfo().state
+                    ep.libHandleEvents(50)  # Mantém a pilha SIP ativa
+
+                    # Validação segura do estado da chamada
+                    try:
+                        ci = call.getInfo()
+                        state = ci.state
+                    except pj.Error:
+                        # Se a chamada já foi destruída na memória C++, interrompe o loop
+                        break
+
                     if state >= pj.PJSIP_INV_STATE_DISCONNECTED:
                         break
 
                     # Amostra RTP/codec ~1x por segundo enquanto atendida
-                    # (Fase 3) — jitter precisa de várias amostras pra dar
-                    # médio/máximo; packets/loss/rtt ficam com a mais recente.
                     if state == pj.PJSIP_INV_STATE_CONFIRMED:
                         agora = time.time()
                         if agora >= proxima_amostra_rtp:
-                            call.amostrar_rtp()
+                            if hasattr(call, "amostrar_rtp"):
+                                call.amostrar_rtp()
                             proxima_amostra_rtp = agora + 1.0
+
                     if stop_event is not None and stop_event.is_set():
                         Console.print("[bold yellow]Parada solicitada — desligando a chamada em andamento...")
                         call.desligamos_local = True
@@ -418,24 +440,37 @@ def executar_bateria(ep, acc, config, painel, stop_event=None, on_progresso=None
                         except pj.Error:
                             pass
                         break
+
                 except Exception as err:
                     Console.print(f"[bold yellow]Exceção no monitoramento da chamada: {err}")
                     break
 
+            # Garante que a pilha do PJSIP processe eventos residuais do desligamento
+            for _ in range(10):
+                ep.libHandleEvents(10)
+
+            # Garantia final: Força o registro do CDR caso o callback de estado não tenha acionado
+            if hasattr(call, "resultado_registrado") and not call.resultado_registrado:
+                if hasattr(call, "registrar_resultado"):
+                    call.registrar_resultado()
+
             Console.print(f"[bold red]Teste com {operadora} finalizado. Pausando 2 segundos...")
 
             if on_progresso is not None:
-                on_progresso(destino, operadora, "concluido")
+                try:
+                    on_progresso(destino, operadora, "concluido")
+                except Exception as err_prog:
+                    Console.print(f"[bold yellow]Aviso no callback de progresso (concluido): {err_prog}")
 
             time.sleep(2)
 
         Console.print(f"\n[bold red][CONCLUÍDO] Todos os testes para o número {destino} foram finalizados.")
         time.sleep(3)
 
-    Console.print("\n[bold red]Fila geral de chamadas concluída. Todos os dados foram salvos no CSV e áudios na pasta.")
-
+    Console.print("\n[bold red]Fila geral de chamadas concluída. Todos os dados foram salvos.")
 
 def main():
+    init_db()
     config_disco = carregar_config()
     config = {
         "sip_domain": config_disco["sip_domain"],

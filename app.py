@@ -18,10 +18,6 @@ app = Flask(__name__)
 painel_web = PainelWeb()
 
 _lock = threading.Lock()
-
-# O PJSUA2 roda inteiramente num processo do SO separado (pjsip_worker.py),
-# nunca no processo do Flask — ver o docstring de pjsip_worker.py para o
-# porquê. A comunicação é só por filas/eventos entre processos.
 _fila_comandos = mp.Queue()
 _fila_eventos = mp.Queue()
 _stop_event = mp.Event()
@@ -55,9 +51,6 @@ def _montar_config_execucao(cenario="ligado"):
 
 
 def _drenar_eventos():
-    """Roda numa thread do processo do Flask, só lendo a fila de eventos
-    vinda do processo do PJSUA2 e atualizando o estado/resultados em
-    memória — nunca toca em pjsua2 diretamente."""
     while True:
         evento = _fila_eventos.get()
         tipo = evento.get("tipo")
@@ -96,11 +89,6 @@ def _iniciar_processo_pjsip():
 
 
 def _vigiar_processo():
-    """O processo do PJSUA2 nunca deveria terminar sozinho (seu loop é
-    infinito) — se ele sumir foi crash nativo (Segmentation fault), que não
-    dá pra capturar em Python. Aqui a gente detecta isso, avisa a interface
-    em vez de deixar tudo travado em "Rodando" pra sempre, e sobe um
-    processo novo pra dar pra tentar de novo sem reiniciar o app.py."""
     global _processo
     while True:
         _processo.join(timeout=1)
@@ -253,8 +241,7 @@ def api_historico_dia(data):
 
 @app.route("/api/historico/atualizar", methods=["POST"])
 def api_historico_atualizar():
-    """Grava anotações manuais (BINA real informada / SPAM) numa chamada já
-    registrada — dados que o sistema não tem como capturar sozinho."""
+    
     dados = request.get_json(force=True) or {}
     timestamp = dados.get("timestamp")
     tronco = dados.get("tronco")

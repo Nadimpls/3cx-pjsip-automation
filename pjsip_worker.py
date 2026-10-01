@@ -1,13 +1,4 @@
-"""Roda o PJSUA2 num processo do sistema operacional totalmente isolado do
-Flask. É necessário porque a extensão nativa `_pjsua2...pyd` deste projeto
-(compilada por fora, não é um build oficial do PJSIP) crasha com
-"Segmentation fault" quando existe qualquer outra thread Python ativa no
-mesmo processo enquanto uma chamada está em andamento — o que acontecia
-tanto rodando o teste numa thread separada quanto na própria thread
-principal, sempre que o servidor Flask também tinha threads vivas no
-processo. Isolando em outro processo, o PJSUA2 fica sozinho, exatamente
-como no script `main.py` original rodado via linha de comando.
-"""
+import traceback
 from queue import Empty
 
 from registro import salvar_csv
@@ -15,14 +6,15 @@ from main import criar_endpoint_e_conta, executar_bateria
 
 
 class _PainelProcesso:
-    """Implementa a interface .registrar(row) esperada por TesteCall/
-    executar_bateria: grava no mesmo CSV de sempre e também manda o
-    resultado pela fila de eventos, para o processo do Flask espelhar."""
 
     def __init__(self, fila_eventos):
         self._fila_eventos = fila_eventos
 
     def registrar(self, row):
+        # Garante a conversão de sqlite3.Row / tuple para dict se necessário
+        if isinstance(row, tuple) and not isinstance(row, dict):
+            row = dict(row)
+            
         salvar_csv(row)
         self._fila_eventos.put({"tipo": "resultado", "row": row})
 
@@ -39,9 +31,7 @@ def _fazer_callback_progresso(fila_eventos):
 
 
 def processo_pjsip(fila_comandos, fila_eventos, stop_event):
-    """Ponto de entrada do processo filho. Fica esperando pedidos de teste
-    (dicts de config) na fila_comandos; entre um teste e outro, bombeia os
-    eventos do PJSIP para manter registro/keep-alive vivos."""
+    """Ponto de entrada do processo filho."""
     painel = _PainelProcesso(fila_eventos)
     on_progresso = _fazer_callback_progresso(fila_eventos)
 
@@ -57,6 +47,10 @@ def processo_pjsip(fila_comandos, fila_eventos, stop_event):
             continue
 
         try:
+            # Garante que 'config' seja um dicionário
+            if isinstance(config, tuple) and not isinstance(config, dict):
+                config = dict(config)
+
             if ep is None:
                 ep, acc = criar_endpoint_e_conta(config)
 
@@ -67,6 +61,12 @@ def processo_pjsip(fila_comandos, fila_eventos, stop_event):
                 on_progresso=on_progresso,
             )
         except Exception as exc:
+            # Exibe o traceback detalhado no console para rastrear o erro
+            print("\n" + "=" * 60)
+            print("[ERRO FATAL NO WORKER PJSIP]:")
+            traceback.print_exc()
+            print("=" * 60 + "\n")
+
             fila_eventos.put({"tipo": "erro", "mensagem": str(exc)})
         finally:
             fila_eventos.put({"tipo": "finalizado"})

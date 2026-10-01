@@ -171,16 +171,37 @@ function adicionarDestino() {
     renderDestinos();
 }
 
-async function iniciarTeste() {
+async function iniciarTeste(event) {
+    if (event) {
+        event.preventDefault(); // Impede o envio via GET/reload do formulário
+    }
+
     document.getElementById("erro-execucao").textContent = "";
+    
     const cenarioEscolhido = document.querySelector('input[name="cenario"]:checked');
     const cenario = cenarioEscolhido ? cenarioEscolhido.value : "ligado";
+
     const { ok, dados } = await apiPost("/api/test/start", { cenario });
+
     if (!ok) {
         document.getElementById("erro-execucao").textContent = dados.erro || "Não foi possível iniciar.";
     }
+
     await atualizarStatus();
 }
+
+// Vinculação do evento no botão
+document.addEventListener("DOMContentLoaded", () => {
+    const btnIniciar = document.getElementById("btn-iniciar");
+    if (btnIniciar) {
+        btnIniciar.addEventListener("click", iniciarTeste);
+    }
+
+    const btnParar = document.getElementById("btn-parar");
+    if (btnParar) {
+        btnParar.addEventListener("click", pararTeste);
+    }
+});
 
 async function pararTeste() {
     await apiPost("/api/test/stop");

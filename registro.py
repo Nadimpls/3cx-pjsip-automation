@@ -19,9 +19,6 @@ CAMPOS_CSV = [
     "sip_reason",
     "atendida",
     "Número",
-    # Colunas da Fase 2 (batch_id, BINA, eventos SIP, causa de encerramento,
-    # durações adicionais) — sempre no final, pra não quebrar a leitura de
-    # linhas antigas do CSV (csv.DictReader lê por nome de coluna).
     "batch_id",
     "bina_configurado",
     "bina_enviado",
@@ -35,8 +32,6 @@ CAMPOS_CSV = [
     "ring_duration_s",
     "talk_duration_s",
     "total_duration_s",
-    # Colunas da Fase 3 (RTP/codec) — também sempre no final. Só existem
-    # pra chamadas atendidas (mídia precisa estar ativa pra medir).
     "codec",
     "payload_type",
     "packets_enviados",

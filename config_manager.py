@@ -19,10 +19,10 @@ CONFIG_PADRAO = {
     "senha_cifrada": None,
     "operadoras_habilitadas": list(OPERADORAS_DISPONIVEIS),
     "destinos": ["41988404022"],
-    "tech_por_operadora": {},  # operadora -> tech ("170"/"225"); ausente = usa TECH_PADRAO
+    "tech_por_operadora": {},  
 }
 
-_SENHA_PADRAO = "9201"  # semente usada só na primeira criação do config.json
+_SENHA_PADRAO = "9201"  
 
 
 def _obter_fernet():
@@ -65,9 +65,6 @@ def salvar_config_bruto(config):
 
 
 def salvar_config(dados_novos):
-    """Mescla dados_novos na config atual. Se 'senha' (texto puro) vier em
-    dados_novos, ela é cifrada e substitui senha_cifrada; se vier vazia ou
-    ausente, a senha já salva é preservada."""
     config = carregar_config()
 
     senha_texto_puro = dados_novos.pop("senha", None)
@@ -99,7 +96,6 @@ def salvar_config(dados_novos):
 
 
 def obter_senha(config=None):
-    """Só deve ser usada no backend, ao montar o AuthCredInfo do PJSUA2."""
     config = config or carregar_config()
     if not config.get("senha_cifrada"):
         return ""

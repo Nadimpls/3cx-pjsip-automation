@@ -4,3 +4,4 @@ __pycache__/
 # Segredos e configuração local da interface web — nunca versionar
 config.json
 secret.key
+audios/ telecom.db log_teste.txt static/app.zip
